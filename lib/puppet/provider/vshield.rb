@@ -1,9 +1,11 @@
 require 'pathname' # WORK_AROUND #14073 and #7788
+vmware_module = Puppet::Module.find('vmware', Puppet[:environment].to_s)
+require File.join vmware_module.path, 'lib/puppet_x/puppetlabs/transport'
+require File.join vmware_module.path, 'lib/puppet_x/vmware/util'
 module_lib = Pathname.new(__FILE__).parent.parent.parent
-require File.join module_lib, 'puppet_x/puppetlabs/transport'
 require File.join module_lib, 'puppet_x/puppetlabs/transport/vshield'
-require File.join module_lib, 'puppet_x/puppetlabs/transport/vsphere'
-require File.join module_lib, 'puppet_x/vmware/util'
+vcenter_module = Puppet::Module.find('vcenter', Puppet[:environment].to_s)
+require File.join vcenter_module.path, 'lib/puppet_x/puppetlabs/transport/vsphere'
 
 if Puppet.features.vshield? and ! Puppet.run_mode.master?
   # Using Savon's library:

@@ -1,6 +1,6 @@
 require 'pathname'
-module_lib = Pathname.new(__FILE__).parent.parent.parent
-require File.join module_lib, 'puppet/property/vmware'
+vmware_module = Puppet::Module.find('vmware', Puppet[:environment].to_s)
+require File.join vmware_module.path, 'lib/puppet/property/vmware'
 
 Puppet::Type.newtype(:vshield_ipset) do
   @doc = 'Manage vShield ipsets, these are used by fw rules'
