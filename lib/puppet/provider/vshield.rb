@@ -106,7 +106,7 @@ class Puppet::Provider::Vshield <  Puppet::Provider
     dc._ref
   end
 
-  def vshield_scope_moref(type=resource[:scope_type], name=resource[:scope_name])
+  def vshield_scope_moref(type=:edge, name=resource[:scope_name])
     case type
       when :datacenter
         datacenter_moref(name)
