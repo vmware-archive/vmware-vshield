@@ -22,10 +22,15 @@ Puppet::Type.newtype(:vshield_application_group) do
   newparam(:scope_type) do
     desc 'scope type, this can be either datacenter or edge'
     newvalues(:edge, :datacenter)
+    defaultto(:edge)
   end
 
   newparam(:scope_name) do
     desc 'scope name which will be used with scope_type to get/set application_groups'
+  end
+
+  autorequire(:vshield_edge) do
+    self[:name]
   end
 
 end
