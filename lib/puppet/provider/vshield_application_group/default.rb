@@ -5,7 +5,7 @@ Puppet::Type.type(:vshield_application_group).provide(:default, :parent => Puppe
   @doc = 'Manages vShield Application Group.'
 
   def exists?
-    results = ensure_array( nested_value(get("/api/2.0/services/applicationgroup/scope/#{vshield_scope_moref}"), ['list', 'applicationGroup']) )
+    results = ensure_array( nested_value(get("/api/2.0/services/applicationgroup/scope/#{vshield_scope_moref(resource[:scope_type])}"), ['list', 'applicationGroup']) )
     # If there's a single application the result is a hash, while multiple results in an array.
     @app_group = results.find{|application_group| application_group['name'] == resource[:name]}
     populate_member
@@ -27,10 +27,10 @@ Puppet::Type.type(:vshield_application_group).provide(:default, :parent => Puppe
       :revision => 0,
       :name     => resource[:name],
     }
-    post("api/2.0/services/applicationgroup/#{vshield_scope_moref}", {:applicationGroup => data} )
+    post("api/2.0/services/applicationgroup/#{vshield_scope_moref(resource[:scope_type])}", {:applicationGroup => data} )
 
     @pending_changes = true
-    results = ensure_array( nested_value(get("/api/2.0/services/applicationgroup/scope/#{vshield_scope_moref}"), ['list', 'applicationGroup']) )
+    results = ensure_array( nested_value(get("/api/2.0/services/applicationgroup/scope/#{vshield_scope_moref(resource[:scope_type])}"), ['list', 'applicationGroup']) )
 
     # If there's a single application the result is a hash, while multiple results in an array.
     @app_group = results.find {|application_group| application_group['name'] == resource[:name]}
@@ -70,7 +70,7 @@ Puppet::Type.type(:vshield_application_group).provide(:default, :parent => Puppe
       # for all application_members add ones not currently members
       if resource[:application_member]
         resource[:application_member].each do |app_member|
-          results = ensure_array( nested_value(get("/api/2.0/services/application/scope/#{vshield_scope_moref}"), ['list', 'application']) )
+          results = ensure_array( nested_value(get("/api/2.0/services/application/scope/#{vshield_scope_moref(resource[:scope_type])}"), ['list', 'application']) )
           app     = results.find {|application| application['name'] == app_member}
           raise Puppet::Error, "Application #{app_member} does not exist, it will not be added to #{resource[:name]}" if app.nil?
 
@@ -96,7 +96,7 @@ Puppet::Type.type(:vshield_application_group).provide(:default, :parent => Puppe
       # add all application_groups that are not currently members
       if resource[:application_group_member]
         resource[:application_group_member].each do |app_member|
-          results = ensure_array( nested_value(get("/api/2.0/services/applicationgroup/scope/#{vshield_scope_moref}"), ['list', 'applicationGroup']) )
+          results = ensure_array( nested_value(get("/api/2.0/services/applicationgroup/scope/#{vshield_scope_moref(resource[:scope_type])}"), ['list', 'applicationGroup']) )
           app     = results.find {|app_group| app_group['name'] == app_member and app_group['objectTypeName'] == 'ApplicationGroup' }
           # if application does not exist, error out and dont update
           raise Puppet::Error, "ApplicationGroup #{app_member} does not exist, it will not be added to #{resource[:name]}" if app.nil?

@@ -119,4 +119,12 @@ class Puppet::Provider::Vshield <  Puppet::Provider
         raise Puppet::Error, "Unknown scope type #{type}"
       end
   end
+
+  def vshield_edge_moref(name=resource[:scope_name])
+    edges = edge_summary || []
+    instance = edges.find{|x| x['name'] == name}
+    raise Puppet::Error, "vShield Edge #{name} does not exist." unless instance
+    instance['id']
+  end
+  
 end

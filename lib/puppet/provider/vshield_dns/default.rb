@@ -6,7 +6,7 @@ Puppet::Type.type(:vshield_dns).provide(:default, :parent => Puppet::Provider::V
   @doc = 'Manages vShield dns service.'
 
   def dns_servers
-    @edge_dns = nested_value(get("/api/3.0/edges/#{vshield_scope_moref}/dns/config"), [ 'dns' ] )
+    @edge_dns = nested_value(get("/api/3.0/edges/#{vshield_edge_moref}/dns/config"), [ 'dns' ] )
     # set a blank array for dnsServers if it does not exist 
     @edge_dns['dnsServers'] = {} if not @edge_dns['dnsServers']
     @edge_dns['dnsServers']['ipAddress'] = ensure_array(@edge_dns['dnsServers']['ipAddress'])
@@ -36,7 +36,7 @@ Puppet::Type.type(:vshield_dns).provide(:default, :parent => Puppet::Provider::V
       data[:dns]                           = @edge_dns.reject{|k,v| v.nil? }
       
       Puppet.debug("Updating dns settings for edge: #{resource[:name]}")
-      put("api/3.0/edges/#{vshield_scope_moref}/dns/config", data )
+      put("api/3.0/edges/#{vshield_edge_moref}/dns/config", data )
     end
   end
 end
