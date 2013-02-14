@@ -1,3 +1,4 @@
+# Copyright (C) 2013 VMware, Inc.
 require 'pathname'
 vmware_module = Puppet::Module.find('vmware', Puppet[:environment].to_s)
 require File.join vmware_module.path, 'lib/puppet/property/vmware'
