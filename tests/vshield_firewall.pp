@@ -1,3 +1,4 @@
+# Copyright (C) 2013 VMware, Inc.
 transport { 'vshield':
   username => 'admin',
   password => 'default',
