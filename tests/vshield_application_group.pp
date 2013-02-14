@@ -1,38 +1,39 @@
+import 'data.pp'
+
 transport { 'vshield':
-  username => 'admin',
-  password => 'default',
-  server   => 'd5p0tlm-mgmt-vsm0.cso.vmware.com',
+  username => $vshield['username'],
+  password => $vshield['password'],
+  server   => $vshield['server'],
 }
 
 transport { 'vcenter':
-  username => 'root',
-  password => 'vmware',
-  server   => '10.255.21.105',
+  username => $vcenter['username'],
+  password => $vcenter['password'],
+  server   => $vcenter['server'],
+  options  => $vcenter['options'],
+}
+
+Vshield_application_group {
+  transport => Transport['vshield'],
 }
 
 vshield_application_group { 'puppet_and_smtp':
-     ensure               => present,
-     application_member       => [ 'puppet', 'SMTP' ],
-     scope_type               => 'edge',
-     scope_name               => 'd5p0v1mgmt-vse-pub',
-     transport                => Transport['vshield'],
-}
+  ensure             => present,
+  application_member => [ 'puppet', 'SMTP' ],
+  scope_type         => 'edge',
+  scope_name         => $edge['name']
+} ->
 
 vshield_application_group { 'test':
-     ensure               => present,
-     application_member       => [ 'HTTPS' ],
-     scope_type               => 'edge',
-     scope_name               => 'd5p0v1mgmt-vse-pub',
-     transport                => Transport['vshield'],
-}
-
+  ensure             => present,
+  application_member => [ 'HTTPS' ],
+  scope_type         => 'edge',
+  scope_name         => $edge['name']
+} ->
 
 vshield_application_group { 'puppet_and_smtp_and_https':
-     ensure               => present,
-     #application_member       => [ 'HTTPS' ],
-     application_group_member => [ 'puppet_and_smtp', 'test' ],
-     scope_type               => 'edge',
-     scope_name               => 'd5p0v1mgmt-vse-pub',
-     require                  => [ Vshield_application_group['test'],  Vshield_application_group['puppet_and_smtp'] ],
-     transport                => Transport['vshield'],
+  ensure                   => present,
+  application_group_member => [ 'puppet_and_smtp', 'test' ],
+  scope_type               => 'edge',
+  scope_name               => $edge['name']
 }

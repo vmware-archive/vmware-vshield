@@ -1,16 +1,18 @@
+import 'data.pp'
+
 transport { 'vshield':
-  username => 'admin',
-  password => 'default',
-  server   => '192.168.232.149',
+  username => $vshield['username'],
+  password => $vshield['password'],
+  server   => $vshield['server'],
 }
 
-vshield_global_config { '192.168.232.149':
+vshield_global_config { $vshield['server']:
   vc_info   => {
-    ip_address => '192.168.232.147',
-    user_name  => 'root',
-    password   => 'vmware',
+    ip_address => $vcenter['server'],
+    user_name  => $vcenter['username'],
+    password   => $vcenter['password'],
   },
-  time_info => { 'ntp_server' => '192.168.232.1' },
-  dns_info  => { 'primary_dns' => '8.8.9.9' },
+  time_info => { 'ntp_server' => 'us.pool.ntp.org' },
+  dns_info  => { 'primary_dns' => '8.8.8.8' },
   transport => Transport['vshield'],
 }

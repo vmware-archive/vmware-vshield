@@ -1,77 +1,33 @@
-   transport { 'vshield':
-       username => 'admin',
-       password => 'default',
-       server   => 'd5p0tlm-mgmt-vsm0.cso.vmware.com',
-   }
+import 'data.pp'
 
-   transport { 'vcenter':
-       username => 'root',
-       password => 'vmware',
-       server   => 'd5p0tlm-mgmt-vc0.cso.vmware.com',
-   }
+transport { 'vshield':
+  username => $vshield['username'],
+  password => $vshield['password'],
+  server   => $vshield['server'],
+}
 
-   vshield_syslog { 'd5p0tlm-mgmt-vsm0.cso.vmware.com':
-       server_info => 'd5p0tlm-mgmt-netsvc-a.cso.vmware.com:514',
-       transport   => Transport['vshield'],
-   } 
+transport { 'vcenter':
+  username => $vcenter['username'],
+  password => $vcenter['password'],
+  server   => $vcenter['server'],
+  options  => $vcenter['options'],
+}
 
-   #vshield_global_config { 'd5p0tlm-mgmt-vc0.cso.vmware.com':
-   #    vc_info   => {
-   #        ip_address => 'd5p0tlm-mgmt-vc0.cso.vmware.com',
-   #        user_name  => 'root',
-   #        password   => 'vmware',
-   #    },
-   #    time_info => { 'ntp_server' => 'd5p0tlm-mgmt-netsvc-a.cso.vmware.com' },
-   #    dns_info  => { 'primary_dns' => '10.255.21.11' },
-   #    transport => Transport['vshield'],
-   #}
+vc_datacenter { $dc1['name']:
+  ensure    => present,
+  path      => $dc1['path'],
+  transport => Transport['vcenter'],
+}
 
-   vshield_edge { 'd5p0tlm-mgmt-vsm0.cso.vmware.com:d5p0v1mgmt-vse-pub':
-       ensure           => present,
-       datacenter_name  => 'd5p0',
-       compute          => 'd5p0mgmt',
-       enable_aesni     => false,
-       enable_fips      => false,
-       enable_tcp_loose => false,
-       vse_log_level    => 'info',
-       fqdn             => "d5p0v1mgmt-vse-pub.cso.vmware.com",
-       #firewall         => {
-       #    default_policy => {
-       #        action => 'deny',
-       #        logging_enabled => false,
-       #    }
-       #},
-       vnics      => [
-           {  name       => 'uplink-test', 
-              portgroup => 'd5p0pod-cus-pg-14',
-              type       => 'Uplink',
-              is_connected => 'true',
-              address_groups => { 
-                'addressGroup' => {
-                  'primaryAddress' => '69.194.136.20',
-                  'secondaryAddresses' => [
-                     { 'ipAddress' => '69.194.136.21'},
-                     { 'ipAddress' => '69.194.136.22'},
-                  ],
-                  'subnetMask' => '255.255.255.128',
-                },
-              },
-           },
-           {  name       =>'internal-1',
-              portgroup => 'd5p0v1-dmz-pg-60',
-              type       => 'Internal',
-              is_connected => 'true',
-              address_groups => { 
-                'addressGroup' => {
-                  'primaryAddress' => '10.10.0.20',
-                  'secondaryAddresses' => [
-                    { 'ipAddress' => '10.10.0.21' },
-                    { 'ipAddress' => '10.10.0.22' },
-                  ],
-                  'subnetMask' => '255.255.255.192',
-                },
-              },
-           },
-       ],
-       transport  => Transport['vshield'],
-   }
+vshield_edge { "${vshield['server']}:${edge['name']}":
+  ensure           => present,
+  datacenter_name  => $dc1['name'],
+  compute          => $cluster1['name'],
+  enable_aesni     => false,
+  enable_fips      => false,
+  enable_tcp_loose => false,
+  vse_log_level    => 'info',
+  fqdn             => $edge['fqdn'],
+  vnics            => $edge['vnics'],
+  transport  => Transport['vshield'],
+}

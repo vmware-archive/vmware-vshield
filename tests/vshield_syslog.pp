@@ -1,10 +1,12 @@
+import 'data.pp'
+
 transport { 'vshield':
-  username => 'admin',
-  password => 'default',
-  server   => '192.168.232.149',
+  username => $vshield['username'],
+  password => $vshield['password'],
+  server   => $vshield['server'],
 }
 
-vshield_syslog { '192.168.232.149':
-  server_info => '192.168.232.2:1000',
+vshield_syslog { $vshield['server']:
+  server_info => '192.168.232.10:514',
   transport   => Transport['vshield'],
 }
