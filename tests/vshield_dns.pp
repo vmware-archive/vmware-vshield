@@ -1,16 +1,19 @@
+import 'data.pp'
+
 transport { 'vshield':
-  username => 'admin',
-  password => 'default',
-  server   => 'd5p0tlm-mgmt-vsm0.cso.vmware.com',
+  username => $vshield['username'],
+  password => $vshield['password'],
+  server   => $vshield['server'],
 }
 
 transport { 'vcenter':
-  username => 'root',
-  password => 'vmware',
-  server   => 'd5p0tlm-mgmt-vsm0.cso.vmware.com',
+  username => $vcenter['username'],
+  password => $vcenter['password'],
+  server   => $vcenter['server'],
+  options  => $vcenter['options'],
 }
 
-vshield_dns { 'd5p0v1mgmt-vse-pub':
+vshield_dns { $edge['name']:
   dns_servers => [ '10.0.0.1', '10.0.0.2' ],
   enabled     => 'true',
   transport   => Transport['vshield'],

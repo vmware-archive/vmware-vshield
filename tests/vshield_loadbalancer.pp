@@ -1,13 +1,16 @@
+import 'data.pp'
+
 transport { 'vshield':
-  username => 'admin',
-  password => 'default',
-  server   => 'd5p0tlm-mgmt-vsm0.cso.vmware.com',
+  username => $vshield['username'],
+  password => $vshield['password'],
+  server   => $vshield['server'],
 }
 
 transport { 'vcenter':
-  username => 'root',
-  password => 'vmware',
-  server   => 'd5p0tlm-mgmt-vsm0.cso.vmware.com',
+  username => $vcenter['username'],
+  password => $vcenter['password'],
+  server   => $vcenter['server'],
+  options  => $vcenter['options'],
 }
 
 vshield_loadbalancer { 'd5p0v1mgmt-vse-pub':
@@ -18,7 +21,7 @@ vshield_loadbalancer { 'd5p0v1mgmt-vse-pub':
 vshield_loadbalancer_pool { 'pool1':
   ensure     => present,
   scope_name => 'd5p0v1mgmt-vse-pub',
-  service_port => [ 
+  service_port => [
                    { protocol        => 'HTTP', 
                      algorithm       => 'ROUND_ROBIN',
                      port            => 80,
@@ -83,7 +86,5 @@ vshield_loadbalancer_vip { 'vip1':
                            },
                          ],
   pool                => 'pool1',
-  require             => Vshield_loadbalancer_pool['pool1'],
-
   transport  => Transport['vshield'],
 }

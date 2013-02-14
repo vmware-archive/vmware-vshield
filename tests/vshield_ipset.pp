@@ -1,26 +1,38 @@
+import 'data.pp'
+
 transport { 'vshield':
-  username => 'admin',
-  password => 'default',
-  server   => '192.168.232.149',
+  username => $vshield['username'],
+  password => $vshield['password'],
+  server   => $vshield['server'],
 }
 
 transport { 'vcenter':
-  username => 'root',
-  password => 'vmware',
-  server   => '192.168.232.147',
+  username => $vcenter['username'],
+  password => $vcenter['password'],
+  server   => $vcenter['server'],
+  options  => $vcenter['options'],
+}
+
+Vshield_ipset {
+  transport => Transport['vshield'],
+}
+
+vc_datacenter { $dc1['name']:
+  ensure    => present,
+  path      => $dc1['path'],
+  transport => Transport['vcenter'],
 }
 
 vshield_ipset { 'demo':
-  value  => [ '10.10.10.1', '10.1.1.2', '10.1.1.1' ],
-  scope_name => 'dc1',
+  ensure     => present,
+  value      => [ '10.10.10.1', '10.1.1.1', '10.1.1.2' ],
+  scope_name => $dc1['name'],
   scope_type => 'datacenter',
-  transport => Transport['vshield'],
 }
 
 vshield_ipset { 'demo2':
-  ensure    => absent,
-  value  => [ '10.10.10.1' ],
-  scope_name => 'dc1',
+  ensure     => absent,
+  value      => [ '10.10.10.1' ],
+  scope_name => $dc1['name'],
   scope_type => 'datacenter',
-  transport => Transport['vshield'],
 }
