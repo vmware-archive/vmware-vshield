@@ -11,6 +11,12 @@ Puppet::Type.newtype(:vshield_global_config) do
   end
 
   newproperty(:vc_info, :parent => Puppet::Property::VMware_Hash) do
+    def insync?(is)
+      # vSphere API does not return the password, so we need to assume correct.
+      desire = @should.first.clone
+      is['password'] = desire['password'] if desire.include? 'password'
+      super(is)
+    end
   end
 
   newproperty(:host_info, :parent => Puppet::Property::VMware_Hash) do
