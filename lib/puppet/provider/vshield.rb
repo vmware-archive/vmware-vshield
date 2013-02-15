@@ -127,5 +127,5 @@ class Puppet::Provider::Vshield <  Puppet::Provider
     raise Puppet::Error, "vShield Edge #{name} does not exist." unless instance
     instance['id']
   end
-  
+
 end
