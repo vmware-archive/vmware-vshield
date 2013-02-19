@@ -63,3 +63,7 @@ $edge = {
   ],
 }
 
+$default_route = { gatewayAddress => '69.194.136.1', vnic => 'uplink-test' },
+$static_routes = [
+  { network => '10.0.32.0/24', nextHop => '10.10.0.1', vnic => 'internal-1' },
+]
