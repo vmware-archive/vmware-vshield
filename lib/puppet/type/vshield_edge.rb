@@ -25,10 +25,10 @@ Puppet::Type.newtype(:vshield_edge) do
     desc 'vShield edge, derived from namevar, do not specify.'
   end
 
-  newparam(:compute, :parent => Puppet::Property::VMware) do
+  newparam(:resource_pool_name, :parent => Puppet::Property::VMware) do
   end
 
-  newparam(:datastore, :parent => Puppet::Property::VMware) do
+  newparam(:datastore_name, :parent => Puppet::Property::VMware) do
   end
 
   newparam(:fqdn, :parent => Puppet::Property::VMware) do
@@ -42,7 +42,7 @@ Puppet::Type.newtype(:vshield_edge) do
   newparam(:appliance, :parent => Puppet::Property::VMware_Hash) do
   end
 
-  newproperty(:vnics, :array_matching => :all) do
+  newproperty(:vnics, :array_matching => :all, :parent => Puppet::Property::VMware_Array_Hash, :sort => :false ) do
   end
 
   newparam(:datacenter_name, :parent => Puppet::Property::VMware) do
@@ -64,12 +64,6 @@ Puppet::Type.newtype(:vshield_edge) do
     newvalues('debug', 'info', 'emergency', 'alert', 'critical', 'error', 'warning', 'notice')
   end
 
-  newproperty(:firewall, :parent => Puppet::Property::VMware_Hash) do
-    def change_to_s(is, should)
-      "#{is.inspect}\n#{should.inspect}"
-    end
-  end
-
   autorequire(:transport) do
     self[:manager]
   end
@@ -77,5 +71,6 @@ Puppet::Type.newtype(:vshield_edge) do
   autorequire(:vshield_global_config) do
     self[:manager]
   end
+
 end
 

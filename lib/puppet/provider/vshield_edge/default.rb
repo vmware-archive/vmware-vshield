@@ -5,10 +5,10 @@ require File.join(provider_path, 'vshield')
 Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provider::Vshield) do
   @doc = 'Manages vShield edge.'
 
-  { :enable_aesni => 'aesni?enable=',
-    :enable_fips  => 'fips?enable=',
+  { :enable_aesni     => 'aesni?enable=',
+    :enable_fips      => 'fips?enable=',
     :enable_tcp_loose => 'tcploose?enable=',
-    :vse_log_level => 'logging?level='
+    :vse_log_level    => 'logging?level='
   }.each do |property, request|
     camel_prop = PuppetX::VMware::Util.camelize(property, :lower).to_sym
     request ||= property.to_s.sub(/^enable_/,'').sub(/_/, '') + '?enable='
@@ -27,25 +27,27 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
     end
   end
 
-  def firewall
-    get("api/3.0/edges/#{@instance['id']}/firewall/config")['firewall']
-  end
-
-  def firewall=(value)
-    put("api/3.0/edges/#{@instance['id']}/firewall/config", {:firewall => value})
+  # add index and substitute the portgroup name with the moref
+  def process_vnic
+    all_vnics = []
+    resource[:vnics].each_with_index do |vnic,index|
+      vnic['portgroupId'] = portgroup_moref(vnic['portgroupName'])
+      vnic['index']       = index
+      all_vnics << vnic
+    end
+    all_vnics
   end
 
   def exists?
-    result = edge_summary || []
+    result    = edge_summary || []
     @instance = result.find{|x| x['name'] == resource[:edge_name]}
   end
 
   def create
     appliance = {
-      :resourcePoolId => compute.resourcePool._ref,
+      :resourcePoolId => resourse_pool.resourcePool._ref,
       :datastoreId => datastore._ref,
     }
-
     data = {
       :datacenterMoid => datacenter._ref,
       :name => resource[:edge_name],
@@ -55,36 +57,12 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
         :applianceSize => resource[:appliance_size],
         :appliance => appliance.merge(resource[:appliance] || {}),
       },
-    }
-
-    def return_pg_id(port_group)
-      dc = vim.serviceInstance.find_datacenter()
-      result = dc.network.find {|pg| pg.name == port_group } || raise(Puppet::Error, "Fatal Error: Portgroup: '#{port_group}' was not found")
-      result._ref
-    end
+    } 
 
     if resource[:vnics]
-      vnic = []
-      resource[:vnics].each_with_index do |item,index|
-        value = {}
-        item.each do |k, v|
-          # for portgroups get the ref(object_id) and use that
-          if k == 'portgroup' 
-            pg_id = return_pg_id(v)
-            v = pg_id
-            k = 'portgroup_id'
-          elsif k == 'address_groups'
-            temp_hash = v['addressGroup']['secondaryAddresses'].collect{ |x| x['ipAddress'] } if v['addressGroup']['secondaryAddresses']
-            v['addressGroup']['secondaryAddresses'] = { :ipAddress => temp_hash }
-          end
-          value[k.to_sym] = v
-        end
-        value[:index] = index
-        vnic << value
-      end
+      vnic = process_vnic
       data[:vnics] = { :vnic => vnic }
     end
-    @vnics = data
 
     order =  [:datacenterMoid, :name, :description, :tenant, :fqdn, :vseLogLevel, :enableAesni, :enableFips, :enableTcpLoose, :appliances, :vnics]
     data[:order!] = order - (order - data.keys)
@@ -95,32 +73,60 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
     delete("api/3.0/edges/#{@instance['id']}")
   end
 
-  def vnics
-    # not implemented yet
-    get("api/3.0/edges/#{@instance['id']}/vnics")
+  def portgroup_moref(portgroup)
+    result = datacenter.network.find{|pg| pg.name == portgroup }
+    raise(Puppet::Error, "Fatal Error: Portgroup: '#{portgroup}' was not found") if result.nil?
+    result._ref
   end
 
-  def vnics=(arg)
-    Puppet.debug("would updated vnics , arg = #{arg.inspect}")
-    #Puppet.debug("@vnics = #{@vnics.inspect}")
-    # not implemented yet
+  def vnics
+    vnic_url = "api/3.0/edges/#{@instance['id']}/vnics"
+    result = ensure_array(nested_value(get("#{vnic_url}"), [ 'vnics', 'vnic' ]) )
+    @vnics = ensure_array(result.find_all{|x| x['isConnected'] == true})
+  end
+
+  def vnics=(nics)
+    num_vnics = @vnics.count + 1
+    resource[:vnics].each do |new_vnic|
+      cur_vnic = @vnics.find{|x| x['name'] == new_vnic['name']} 
+      # add or update vnics
+      if cur_vnic.nil?
+        new_vnic['portgroupId'] = portgroup_moref(new_vnic['portgroupName'])
+        vnic_count_error        = "Number of vnics is greater than 10, please verify manifest"
+        raise Puppet::Error, "#{vnic_count_error}" if num_vnics > 9
+
+        cur_vnic['index'] = num_vnics
+        num_vnics         = num_vnics + 1
+        vnic_url          = "/api/3.0/edges/#{@instance['id']}/vnics/?action=patch"
+
+        Puppet.debug("Adding new_vnic: #{new_vnic.inspect}")
+        post("#{vnic_url}", {:vnics => {:vnic => new_vnic} } )
+      else
+        data        = {}
+        data[:vnic] = cur_vnic.merge(new_vnic)
+        vnic_url    = "/api/3.0/edges/#{@instance['id']}/vnics/#{cur_vnic['index']}"
+
+        Puppet.debug("Updating vnic: #{new_vnic.inspect}")
+        put("#{vnic_url}", data )
+      end
+    end
   end
 
   private
 
   def datacenter(name=resource[:datacenter_name])
-    vim.serviceInstance.find_datacenter name or raise Puppet::Error, "datacenter '#{name}' not found."
+    vim.serviceInstance.find_datacenter(name) or raise Puppet::Error, "datacenter '#{name}' not found."
   end
 
-  def compute(name=resource[:compute])
-    datacenter.find_compute_resource name or raise Puppet::Error, "compute resource '#{name}' not found."
+  def resource_pool(name=resource[:resource_pool_name])
+    datacenter.find_compute_resource(name) or raise Puppet::Error, "resource_pool resource '#{name}' not found."
   end
 
   def datastore
-    if resource[:datastore]
-      datacenter.find_datastore resource[:datastore]
+    if resource[:datastore_name]
+      datacenter.find_datastore(resource[:datastore_name])
     else
-      compute.datastore.first
+      resource_pool.datastore.first
     end
   end
 end

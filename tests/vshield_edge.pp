@@ -21,14 +21,14 @@ vc_datacenter { $dc1['name']:
 }
 
 vshield_edge { "${vshield['server']}:${edge['name']}":
-  ensure           => present,
-  datacenter_name  => $dc1['name'],
-  compute          => $cluster1['name'],
-  enable_aesni     => false,
-  enable_fips      => false,
-  enable_tcp_loose => false,
-  vse_log_level    => 'info',
-  fqdn             => $edge['fqdn'],
-  vnics            => $edge['vnics'],
+  ensure             => present,
+  datacenter_name    => $dc1['name'],
+  resource_pool_name => $cluster1['name'],
+  enable_aesni       => false,
+  enable_fips        => false,
+  enable_tcp_loose   => false,
+  vse_log_level      => 'info',
+  fqdn               => $edge['fqdn'],
+  vnics              => $edge['vnics'],
   transport  => Transport['vshield'],
 }
