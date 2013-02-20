@@ -82,24 +82,30 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
   def vnics
     vnic_url = "api/3.0/edges/#{@instance['id']}/vnics"
     result = ensure_array(nested_value(get("#{vnic_url}"), [ 'vnics', 'vnic' ]) )
+    # all vnics are pre configured, chose connected vnics to distinguish between used/unused
     @vnics = ensure_array(result.find_all{|x| x['isConnected'] == true})
   end
 
+  def next_avail_vnic
+    vnic_url        = "api/3.0/edges/#{@instance['id']}/vnics"
+    result          = ensure_array(nested_value(get("#{vnic_url}"), [ 'vnics', 'vnic' ]) )
+    next_vnic       = result.find{|x| x['isConnected'] == false} 
+    next_vnic_error = "Next available vnic who's status is 'not connected' was not found",
+                      " one thing to check is if all vnics are allocated"
+    raise Puppet::Error, "#{next_vnic_error}" if next_vnic.nil?
+    next_vnic
+  end
+
   def vnics=(nics)
-    num_vnics = @vnics.count + 1
     resource[:vnics].each do |new_vnic|
       cur_vnic = @vnics.find{|x| x['name'] == new_vnic['name']} 
-      # add or update vnics
+      # add or update the vnic
       if cur_vnic.nil?
         new_vnic['portgroupId'] = portgroup_moref(new_vnic['portgroupName'])
-        vnic_count_error        = "Number of vnics is greater than 10, please verify manifest"
-        raise Puppet::Error, "#{vnic_count_error}" if num_vnics > 9
+        new_vnic['index']       = next_avail_vnic['index']
+        vnic_url                = "/api/3.0/edges/#{@instance['id']}/vnics/?action=patch"
 
-        cur_vnic['index'] = num_vnics
-        num_vnics         = num_vnics + 1
-        vnic_url          = "/api/3.0/edges/#{@instance['id']}/vnics/?action=patch"
-
-        Puppet.debug("Adding new_vnic: #{new_vnic.inspect}")
+        Puppet.debug("Adding vnic#{new_vnic['index']}")
         post("#{vnic_url}", {:vnics => {:vnic => new_vnic} } )
       else
         data        = {}

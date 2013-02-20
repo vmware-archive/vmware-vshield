@@ -30,32 +30,30 @@ $edge = {
   'name' => 'dmz',
   'fqdn' => 'dmz.edge.lan',
   'vnics' => [
-    { name      => 'uplink-test',
-      portgroup => 'd5p0pod-cus-pg-14',
-      type      => 'Uplink',
-      is_connected => 'true',
-      address_groups => {
+    { name          => 'uplink-test',
+      portgroupName => 'd5p0pod-cus-pg-14',
+      type          => 'uplink',
+      isConnected   => true,
+      addressGroups => {
         'addressGroup' => {
           'primaryAddress' => '69.194.136.20',
-          'secondaryAddresses' => [
-            { 'ipAddress' => '69.194.136.21'},
-            { 'ipAddress' => '69.194.136.22'},
-            ],
+          'secondaryAddresses' => {
+            'ipAddress' => [ '69.194.136.21', '69.194.136.22' ],
+          },
           'subnetMask' => '255.255.255.128',
         },
       },
     },
-    { name       =>'internal-1',
-      portgroup => 'd5p0v1-dmz-pg-60',
-      type       => 'Internal',
-      is_connected => 'true',
-      address_groups => {
+    { name          =>'internal-1',
+      portgroupName => 'd5p0v1-dmz-pg-60',
+      type          => 'internal',
+      isConnected   => true,
+      addressGroups => {
         'addressGroup' => {
           'primaryAddress' => '10.10.0.20',
-          'secondaryAddresses' => [
-            { 'ipAddress' => '10.10.0.21' },
-            { 'ipAddress' => '10.10.0.22' },
-            ],
+          'secondaryAddresses' => {
+            'ipAddress' => [ '10.10.0.21', '10.10.0.22' ],
+          },
           'subnetMask' => '255.255.255.192',
         },
       },
