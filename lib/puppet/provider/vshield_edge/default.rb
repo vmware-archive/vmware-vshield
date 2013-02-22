@@ -45,7 +45,7 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
 
   def create
     appliance = {
-      :resourcePoolId => resourse_pool.resourcePool._ref,
+      :resourcePoolId => resource_pool.resourcePool._ref,
       :datastoreId => datastore._ref,
     }
     data = {
