@@ -14,7 +14,9 @@ Puppet::Type.newtype(:vshield_global_config) do
     def insync?(is)
       # vSphere API does not return the password, so we need to assume correct.
       desire = @should.first.clone
-      is['password'] = desire['password'] if desire.include? 'password'
+      if desire.include? 'password' and is.is_a? Hash
+        is['password'] = desire['password']
+      end
       super(is)
     end
   end
