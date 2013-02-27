@@ -19,7 +19,7 @@ module is able to attach vCNS to a vCenter and manages vCNS 5.1 resources via
 
 ## Installation
 
-$ puppet module install puppetlabs/vshield
+$ puppet module install vmware/vshield
 
 ## Usage
 
