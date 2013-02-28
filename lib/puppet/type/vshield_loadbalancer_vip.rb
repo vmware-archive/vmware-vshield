@@ -12,7 +12,7 @@ Puppet::Type.newtype(:vshield_loadbalancer_vip) do
     desc 'loadbalancer name'
   end
 
-  newproperty(:application_profile, :parent => Puppet::Property::VMware_Array, :sort => lambda {|a, b| a['protocol'] <=> b['protocol']} ) do
+  newproperty(:application_profile, :parent => Puppet::Property::VMware_Array_Hash, :key => 'protocol', :array_matching => :all ) do
     desc 'these are applications that define the protocol/persistence that the vip will use'
     defaultto([])
   end
