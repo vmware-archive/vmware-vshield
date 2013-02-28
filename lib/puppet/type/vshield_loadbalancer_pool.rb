@@ -12,12 +12,12 @@ Puppet::Type.newtype(:vshield_loadbalancer_pool) do
     desc 'loadbalancer name'
   end
 
-   newproperty(:service_port, :parent => Puppet::Property::VMware_Array, :sort => lambda {|a, b| a['protocol'] <=> b['protocol']} ) do
+   newproperty(:service_port, :parent => Puppet::Property::VMware_Array_Hash, :key => 'protocol', :array_matching => :all ) do
     desc 'these are service_ports that define the protocol/healthcheck/algorithm that the pool will use'
     defaultto([])
   end
 
-   newproperty(:member, :parent => Puppet::Property::VMware_Array, :sort => lambda {|a, b| a['ipAddress'] <=> b['ipAddress']} ) do
+   newproperty(:member, :parent => Puppet::Property::VMware_Array_Hash, :key => 'ipAddress', :array_matching => :all ) do
     desc 'these are members of the load balancer pool'
     defaultto([])
   end

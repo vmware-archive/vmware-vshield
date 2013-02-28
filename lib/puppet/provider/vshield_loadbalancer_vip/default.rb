@@ -65,7 +65,7 @@ Puppet::Type.type(:vshield_loadbalancer_vip).provide(:default, :parent => Puppet
   end
 
   def application_profile
-    @lb_vip['applicationProfile'] = @lb_vip['applicationProfile'].sort {|a, b| a['protocol'] <=> b['protocol']}
+    @lb_vip['applicationProfile'] = @lb_vip['applicationProfile']
   end
 
   def application_profile=(application_profile=resource[:application_profile])
