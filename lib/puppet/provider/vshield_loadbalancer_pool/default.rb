@@ -45,7 +45,7 @@ Puppet::Type.type(:vshield_loadbalancer_pool).provide(:default, :parent => Puppe
   end
 
   def service_port
-    @lb_pool['servicePort'] = @lb_pool['servicePort']
+    @lb_pool['servicePort']
   end
 
   def service_port=(service_port=resource[:service_port])
@@ -53,7 +53,7 @@ Puppet::Type.type(:vshield_loadbalancer_pool).provide(:default, :parent => Puppe
   end
 
   def member
-    @lb_pool['member'] = @lb_pool['member']
+    @lb_pool['member']
   end
 
   def member=(member=resource[:member])
