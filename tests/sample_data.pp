@@ -65,3 +65,44 @@ $default_route = { gatewayAddress => '69.194.136.1', vnic => 'uplink-test' },
 $static_routes = [
   { network => '10.0.32.0/24', nextHop => '10.10.0.1', vnic => 'internal-1' },
 ]
+
+$dhcp_pools = [
+  {
+    ipRange             => '192.168.5.70-192.168.5.75',
+    defaultGateway      => '192.168.5.145',
+    domainName          => 'eng.vmware.com',
+    primaryNameServer   => '192.168.5.1',
+    secondaryNameServer => '8.8.8.8',
+    leaseTime           => 3600,
+    autoConfigureDNS    => false,
+  },
+  {
+    ipRange             => '192.168.5.30-192.168.5.39',
+    defaultGateway      => '192.168.5.145',
+    domainName          => 'eng.vmware.com',
+    primaryNameServer   => '192.168.5.1',
+    secondaryNameServer => '8.8.8.8',
+    leaseTime           => 3600,
+    autoConfigureDNS    => false,
+  },
+]
+
+$dhcp_bindings = [
+  { vnicId              => 1,
+    hostname            => 'dhcp-test',
+    ipAddress           => '192.168.5.47',
+    defaultGateway      => '192.168.5.145',
+    domainName          => 'eng.vmware.com',
+    primaryNameServer   => '8.8.8.8',
+    secondaryNameServer => '8.8.4.4',
+    leaseTime           => 3600,
+    autoConfigureDNS    => false,
+  },
+]
+
+$dhcp_logging = {
+  enable    => false,
+  logLevel  => 'info'
+}
+
+$dhcp_enabled = false
