@@ -14,7 +14,7 @@ transport { 'vcenter':
   options  => $vcenter['options'],
 }
 
-vshield_ha { $edge['name']
+vshield_ha { $edge['name']:
   ip_addresses    => [ '192.168.0.1', '192.168.0.2' ],
   enabled         => 'true',
   vnic            => 1,

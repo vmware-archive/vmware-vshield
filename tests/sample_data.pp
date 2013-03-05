@@ -106,3 +106,17 @@ $dhcp_logging = {
 }
 
 $dhcp_enabled = false
+
+$nat1 = {
+  action => dnat,
+  vnic   => 1,
+  original_address => '10.10.0.1',
+  translated_address => '192.168.0.1',
+}
+
+$nat2 = {
+  action => dnat,
+  vnic   => 1,
+  original_address => '10.10.0.2',
+  translated_address => '192.168.0.2',
+}
