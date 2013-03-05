@@ -60,15 +60,14 @@ Puppet::Type.type(:vshield_ha).provide(:default, :parent => Puppet::Provider::Vs
     raise Puppet::Error, "#{error_msg}" if not result['type'] == 'internal'
   end
 
-  def get_appliances
+  def appliances
     appl_url    = "/api/3.0/edges/#{vshield_edge_moref}/appliances" 
-    @appliances = ensure_array(nested_value(get("#{appl_url}"), [ 'appliances', 'appliance' ]))
-    @appliances = @appliances.sort {|a,b| a['highAvailabilityIndex'] <=> b['highAvailabilityIndex']}
+    appls = ensure_array(nested_value(get("#{appl_url}"), [ 'appliances', 'appliance' ]))
+    appls.sort {|a,b| a['highAvailabilityIndex'] <=> b['highAvailabilityIndex']}
   end
 
   def datastore_name
-    get_appliances
-    ensure_array(@appliances.collect{|x| x['datastoreName']})
+    ensure_array(appliances.collect{|x| x['datastoreName']})
   end
 
   def datastore_name=(value)
@@ -106,15 +105,16 @@ Puppet::Type.type(:vshield_ha).provide(:default, :parent => Puppet::Provider::Vs
       put("api/3.0/edges/#{vshield_edge_moref}/highavailability/config", data )
     end
     if @appliance_changes
-      @appliances.each_with_index do |cur_appl,index|
+      appliances.each_with_index do |cur_appl,index|
         appl_ha_index = cur_appl['highAvailabilityIndex']
         index_err     = "index; #{index} != haIndex: #{appl_ha_index}" 
         raise Puppet::Error, "#{index_err}" if appl_ha_index.to_s != index.to_s
         dc       = datacenter(resource[:datacenter_name])
+        # this works around when drs is violating contraints will show error
+        cur_appl.delete('datastoreName')
         new_appl = cur_appl.clone
         if resource[:datastore_name] and resource[:datastore_name][index]
           ds = resource[:datastore_name][index]
-          new_appl.delete('datastoreName')
           new_appl['datastoreId']    = datastore(dc,ds)._ref
         end
         if cur_appl != new_appl
