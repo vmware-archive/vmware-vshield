@@ -14,12 +14,12 @@ transport { 'vcenter':
   options  => $vcenter['options'],
 }
 
-vshield_ha { $edge['name']
-  ip_addresses    => [ '192.168.0.1', '192.168.0.2' ],
+vshield_ha { $edge['name']:
+  ip_addresses    => $edge['ha']['ip_addresses'],
   enabled         => 'true',
-  vnic            => 1,
-  datastore_name  => [ 'ns120-lun0', 'ns120-lun1' ],
-  datacenter_name => 'd5p0',
+  vnic            => $edge['ha']['vnic'],
+  datastore_name  => $edge['ha']['datastore_name'],
+  datacenter_name => $dc1['name'],
   transport       => Transport['vshield'],
   require         => [ Transport['vshield'], Transport['vcenter'] ]
 }
