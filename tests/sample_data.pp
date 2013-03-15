@@ -106,3 +106,12 @@ $dhcp_logging = {
 }
 
 $dhcp_enabled = false
+
+$vxlan_segment1 = {
+  id    => '1',
+  name  => 'segment1',
+  desc  => 'test segment 1',
+  begin => 6000,
+  end   => 8000,
+}
+
