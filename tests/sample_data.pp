@@ -106,3 +106,48 @@ $dhcp_logging = {
 }
 
 $dhcp_enabled = false
+
+$vxlan_switch1 = {
+  switch => { name => 'dvSwitch' },
+  teaming => 'LACP_PASSIVE',
+  mtu     => 1600,
+}
+
+$vxlan_map1 = {
+  switch => { name => 'dvSwitch' },
+  vlan_id  => 0,
+}
+
+$vxlan_segment1 = {
+  id    => '1',
+  name  => 'segment1',
+  desc  => 'test segment 1',
+  begin => 6000,
+  end   => 8000,
+}
+
+$vxlan_multicast1 = {
+  id    => '1',
+  name  => 'multicast1',
+  desc  => 'test multicast 1',
+  begin => '239.1.1.1',
+  end   => '239.3.3.3',
+}
+
+$vxlan_scope1 = {
+  name  => 'vLab',
+  description => 'test scope 1',
+  clusters => {
+    cluster => {
+      cluster => {},
+    },
+  },
+}
+
+$vxlan1 = {
+  name        => 'vWire1',
+  description => 'virtual wire 1',
+  tenant_id   => 'production',
+}
+
+$vxlan_udp_port = 8479
