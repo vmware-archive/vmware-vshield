@@ -102,9 +102,24 @@ class Puppet::Provider::Vshield <  Puppet::Provider
     @edge_detail ||= nested_value(get("api/3.0/edges/#{@instance['id']}"), ['edge'])
   end
 
-  def datacenter_moref(name=resource[:datacenter_name])
+  def datacenter(name=resource[:datacenter_name])
     dc = vim.serviceInstance.find_datacenter(name) or raise Puppet::Error, "datacenter '#{name}' not found."
+    dc
+  end
+
+  def datacenter_moref(name=resource[:datacenter_name])
+    dc = datacenter
     dc._ref
+  end
+
+  def dvswitch(name=resource[:switch]['name'])
+    @dvswitch ||= begin
+      dvswitches = datacenter.networkFolder.children.select {|n|
+        n.class == RbVmomi::VIM::VmwareDistributedVirtualSwitch
+      }
+      dv = dvswitches.find{|d| d.name == name}
+      dv
+    end
   end
 
   def vshield_scope_moref(type=:edge, name=resource[:scope_name])
