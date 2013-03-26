@@ -59,6 +59,11 @@ $edge = {
       },
     },
   ],
+  ha => {
+         ip_addresses    => [ '192.168.0.1', '192.168.0.2' ],
+         vnic            => 1,
+         datastore_name  => [ 'ns120-lun1', 'ns120-lun2' ],
+  }
 }
 
 $default_route = { gatewayAddress => '69.194.136.1', vnic => 'uplink-test' },
@@ -107,6 +112,7 @@ $dhcp_logging = {
 
 $dhcp_enabled = false
 
+<<<<<<< HEAD
 $vxlan_switch1 = {
   switch => { name => 'dvSwitch' },
   teaming => 'LACP_PASSIVE',
@@ -151,3 +157,20 @@ $vxlan1 = {
 }
 
 $vxlan_udp_port = 8479
+=======
+
+
+$nat1 = {
+  action => dnat,
+  vnic   => 1,
+  original_address => '10.10.0.1',
+  translated_address => '192.168.0.1',
+}
+
+$nat2 = {
+  action => dnat,
+  vnic   => 1,
+  original_address => '10.10.0.2',
+  translated_address => '192.168.0.2',
+}
+>>>>>>> master

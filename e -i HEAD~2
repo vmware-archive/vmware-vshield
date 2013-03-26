@@ -1,0 +1,1797 @@
+commit 849f4bafc3fd42ade017389de06f5909f4c80958
+Author: Floyd Arguello <farguello@vmware.com>
+Date:   Tue Mar 26 11:06:27 2013 -0700
+
+    update vshield.rb
+
+commit 195bdc0e97e7a661a2a5cbc2218f7864e7d6aec2
+Author: Floyd Arguello <farguello@vmware.com>
+Date:   Mon Mar 18 03:38:40 2013 -0700
+
+    vshield vxlan management
+
+commit 5ba416c88a9850c002af39d1a572eacc0c6fa4bc
+Merge: e806652 b5f6643
+Author: sholland <sholland@vmware.com>
+Date:   Fri Mar 1 13:27:36 2013 -0800
+
+    Merge pull request #22 from arguello/tb/vshield_dhcp
+    
+    vshield dhcp management module
+
+commit b5f66438a8d8b2e1a77fd6b12ab8bfe374c03312
+Author: Floyd Arguello <farguello@vmware.com>
+Date:   Thu Feb 28 19:37:18 2013 -0700
+
+    vshield dhcp management module
+
+commit e80665229862bb3e24840a5f350e55822e745566
+Merge: 36aee35 fe7ec77
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Thu Feb 28 11:48:28 2013 -0800
+
+    Merge pull request #21 from sholland/tb/remove-red-equals
+    
+    removed leftover "=" from sort in lb provider
+
+commit fe7ec77a0833534878208638a2a5f017d73d754d
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Thu Feb 28 11:36:16 2013 -0800
+
+    removed leftover "=" from sort in lb
+
+commit 36aee35c2a02f85a38a04d246bf509d647264a86
+Merge: 4c64c10 1057070
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Feb 28 11:19:27 2013 -0800
+
+    Merge pull request #19 from sholland/tb/lb-array-change
+    
+    modified lb pool/vip type to vmware_array_hash
+
+commit 1057070b4bc66a97a4a7f863d5ce49551db784ab
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Thu Feb 28 11:03:23 2013 -0800
+
+    modified lb pool/vip type to vmware_array_hash
+
+commit 4c64c10c918398af0407009884c5676d8b561186
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Feb 27 09:42:25 2013 -0800
+
+    Fix module name in install instructions.
+
+commit d074666c6654d941625b9a508578364752a7d7c6
+Merge: 3f63025 4a5aaed
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Feb 25 17:02:01 2013 -0800
+
+    Merge pull request #16 from sholland/tb/fw-ipset-fix
+    
+    fix typo in edge and built-in fw ipset feat enhance for firewall
+
+commit 4a5aaed3bcc5641b251a7eef45a0d9cac115466b
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Mon Feb 25 16:30:49 2013 -0800
+
+    fix typo in edge and feat enhance for firewall
+
+commit 3f630259ac6a575308ca8fa439d22b4ad58f2b6d
+Merge: 94d4b45 c6f5422
+Author: sholland <sholland@vmware.com>
+Date:   Mon Feb 25 15:44:36 2013 -0800
+
+    Merge pull request #15 from nanliu/tb/insync
+    
+    Fix bug for initial vshield deployment.
+
+commit c6f5422ef4cba408c3933fbff4acd72e22ec4bc0
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Feb 25 15:31:13 2013 -0800
+
+    Fix bug for initial vshield deployment.
+    
+    The updated insync? method will handle the initial vshield deployment
+    correctly.
+
+commit 94d4b45ece9a817b72dced89da66facc461baae9
+Merge: 8ba2c21 15f2d99
+Author: sholland <sholland@vmware.com>
+Date:   Thu Feb 21 11:59:13 2013 -0800
+
+    Merge pull request #13 from sholland/tb/sample_data
+    
+    reverting vshield_application provider and updated sample_data.pp - merging after consulting with nan
+
+commit 8ba2c217547c4cbe9e3a763ac9faf360f234146e
+Merge: 9750209 503c3ef
+Author: sholland <sholland@vmware.com>
+Date:   Thu Feb 21 11:57:05 2013 -0800
+
+    Merge pull request #12 from rzenker/vshield_routes
+    
+    vshield edge default/static route management
+
+commit 15f2d992c8649e2447194d4517fdf332ced7d350
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Wed Feb 20 14:38:48 2013 -0800
+
+    adding back previous version of vshield_application before split, also updated sample_data.pp
+    
+    added copyright to vshield_application/default.rb
+    
+    updated sample_data.pp
+    
+    updated sample_data changing true to true
+    
+    updated vnics= to grab first available vnic versus a vnic[n] + 1
+
+commit 503c3ef3bdd9ab8ba6416ba2939875c3cf0a2b8a
+Author: Ryan Zenker <rzenker@vmware.com>
+Date:   Tue Feb 19 13:58:45 2013 -0500
+
+    vshield edge default/static route management
+    
+    flush only actionable if pending_changes is true
+    
+    empty list and hash allow for removal of route(s), not specified (nil)
+    leaves the existing values on the vse unchanged
+    
+    populate_state method added to pull in current data in either case of
+    properties being specified
+    
+    simplified default values
+    
+    moved to method and block definition of edge_routes
+
+commit 975020953b4fdc02d67d07828dbf1c84b20f0d2a
+Merge: e7739f0 b85747c
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Feb 20 09:09:52 2013 -0800
+
+    Merge pull request #5 from sholland/tb/ha
+    
+    added vshield_ha type / provider
+
+commit b85747c4fe6586d9a103da8f1d4347e083cb888a
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Mon Feb 11 15:48:58 2013 -0800
+
+    added vshield_ha type / provider
+    
+    Modify modulefile to reflect repo changes.
+    
+    cleaned up vshield_edge, added vnic getter/setter, added vshield_ha type / provider
+    
+    updated vshield_ha type
+    
+    removed firewall from vshield_edge
+    
+    added vshield_ha test
+    
+    spelling mistakes, change compute to resource, minor corrections
+
+commit e7739f0d1e3c5adfa4ab594c079faf1386048d14
+Merge: 1fcd3a0 ae8e24b
+Author: sholland <sholland@vmware.com>
+Date:   Sat Feb 16 01:32:21 2013 -0800
+
+    Merge pull request #11 from nanliu/modfile
+    
+    Modify modulefile to reflect repo changes.
+
+commit ae8e24b2d06e4222e15b738e4e6c035f476ee86a
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Fri Feb 15 17:09:57 2013 -0800
+
+    Modify modulefile to reflect repo changes.
+
+commit 1fcd3a032ad1eb08290aec58e31538172656a499
+Merge: 30cccf5 9af53fe
+Author: sholland <sholland@vmware.com>
+Date:   Fri Feb 15 16:20:42 2013 -0800
+
+    Merge pull request #10 from nanliu/tb/test
+    
+    Update tests to use data file.
+
+commit 9af53fe9481585605cf5e289346ac9319880a8e5
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Feb 13 23:15:33 2013 -0800
+
+    Update tests to use data file.
+    
+    Conflicts:
+    	tests/vshield_application.pp
+    	tests/vshield_application_group.pp
+    	tests/vshield_applicationgroup.pp
+    	tests/vshield_dns.pp
+    	tests/vshield_edge.pp
+    	tests/vshield_firewall.pp
+    	tests/vshield_global_config.pp
+    	tests/vshield_ipset.pp
+    	tests/vshield_loadbalancer.pp
+    	tests/vshield_syslog.pp
+
+commit 30cccf5e8c53019d438ea655de4f628f8ddf4c3f
+Merge: 7ed73f2 0b04ecb
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Thu Feb 14 13:54:56 2013 -0800
+
+    Merge pull request #8 from nanliu/tb/doc
+    
+    Update documentation.
+
+commit 7ed73f2fd9ab8314b7daa2ac762902ea5e18ea37
+Merge: fe24be2 5e7cdf1
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Thu Feb 14 13:52:46 2013 -0800
+
+    Merge pull request #7 from nanliu/tb/config
+    
+    Fix global_config so it doesn't always update.
+
+commit fe24be24b8d779393494da427ff97b9d0dcf2e44
+Merge: 0824f58 81c7bf7
+Author: sholland <sholland@vmware.com>
+Date:   Thu Feb 14 13:28:13 2013 -0800
+
+    Merge pull request #9 from nanliu/license
+    
+    Add License file.
+
+commit 81c7bf74db7b2e8a731d72fc8f1c3ff985de2e50
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Feb 14 13:22:22 2013 -0800
+
+    Add License file.
+
+commit 0b04ecb199bed80077f645b2efaeee8d44b52033
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Feb 13 23:15:46 2013 -0800
+
+    Update documentation.
+
+commit 5e7cdf124fd59a9debfb7a4e82df58cbc21404ea
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Feb 13 22:21:10 2013 -0800
+
+    Fix global_config so it doesn't always update.
+    
+    The vSphere API does not return the password, so the insync operation
+    always return false. We have to assume the password is correct for now
+    to avoid resource applying on every run.
+
+commit 0824f58bb2c63c7befb2ada5da0b9eeb5bcf1568
+Merge: e0d83d0 238bedf
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Feb 11 14:58:41 2013 -0800
+
+    Merge pull request #4 from sholland/tb/firewall
+    
+    adding vshield_firewall type /provider and cleanup
+
+commit 238bedf19a877716bacd58aaaaa8a2a1fadeabf2
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Sat Feb 9 23:28:46 2013 -0800
+
+    adding vshield_firewall type /provider and modified vshield_application_group provider to split out methods from flush to make cleaner
+    
+     adding test manifests for vshield_application_group and updating the one for vshield_firewall
+    
+    updated vshield_application_group to use local variables where possible versus instance variables
+    
+    removed redundant local variable in exists for vshield_application_group
+
+commit e0d83d08e64c7cce3f4ed3f4ebac455dbec9b4ee
+Merge: ce88ec4 a1801ce
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Thu Feb 7 16:07:59 2013 -0800
+
+    Merge pull request #2 from sholland/tb/vshield_loadbalancer
+    
+    add vshield_loadbalancer, changed ipset/application/application_group vs...
+
+commit a1801ce67a671f6174a18cbdac13f3b30082f425
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Wed Feb 6 23:51:28 2013 -0800
+
+    add vshield_loadbalancer, changed ipset/application/application_group vshield_scope_moref entries to pass resource[:scope_type] and added tests
+    
+    removed scope_type from vshield_loadbalancer_pool and vip
+    
+    added defaultto for scope_type
+    
+    changed vshield_scope_moref to vshield_edge_moref for dns/loadbalancer
+    
+    removed || from data ||= {} since it will never be defined before that
+    
+    removed firewall string and replaced with actual resource
+    
+    changed destroy to not implemented
+    
+    removed all data ||= {} and changed to data = {}
+    
+    removed enabled from pool
+    
+    updated loadbalancer types to use vmware array type with sorting and added sorting to the provider as well, added autorequires for edge for all and from vip -> pool
+    
+    updated vshield_loadbalancer.pp with require
+
+commit ce88ec42a1d8d02d839ef4cf1a115869fe76757e
+Merge: 2753743 5a28ec8
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Thu Feb 7 15:35:01 2013 -0800
+
+    Merge pull request #3 from nanliu/tb/extra
+    
+    Update module file and remove extra files.
+
+commit 5a28ec89c27b01cd52aeb210fb80b3c19241a1ca
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Feb 7 15:22:59 2013 -0800
+
+    Update module file and remove extra files.
+
+commit 2753743476f40616dc6a76fcf34bf78a6f3da1af
+Merge: f98cbdb 9b20c50
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Wed Feb 6 17:44:17 2013 -0800
+
+    Merge pull request #1 from sholland/tb/vshield_dns
+    
+    added vshield_dns type / provider
+
+commit 9b20c509136b8aaf0f34dbcae4b4058ab0964430
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Wed Feb 6 12:50:31 2013 -0800
+
+    added vshield_dns type / provider
+    
+    added back missing transport/vshield.rb and update provider vshield.rb to use type=:edge as default
+    
+    updated vshield_dns type to remove scope_type
+
+commit f98cbdb129256e3d256f52cfea0879c1106a1834
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Feb 5 18:26:26 2013 -0800
+
+    Split module into separate vshield module.
+
+commit 8c932000a2ab8e0c17821c794bdc5312b194b8aa
+Merge: 815d8e5 d401663
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Mon Jan 21 17:39:27 2013 -0800
+
+    Merge pull request #59 from nanliu/tb/vcsa
+    
+    Add features and net-ssh gem to package deployment.
+
+commit d401663e7a9da68260ac6dabb341be7253afeca2
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Jan 21 19:07:01 2013 -0600
+
+    Add features and net-ssh gem to package deployment.
+    
+    * Add feature to confine loading of gems.
+    * Use relative path for loading files.
+    * Add net-ssh gem to package installation.
+    
+    Fix #58.
+
+commit 815d8e5ed81210cc189f8e2c27b9d5561d435522
+Merge: 4cde865 dae506d
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Mon Jan 21 14:20:16 2013 -0800
+
+    Merge pull request #57 from nanliu/tb/vcsa
+    
+    Fix library loading issue with vcsa.
+
+commit dae506d85f3a0b2362d1a163af72dc5119e8e127
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Jan 21 15:42:38 2013 -0600
+
+    Fix library loading issue with vcsa.
+
+commit 4cde86587bf4f7d21d23c4f068bda2cd22046198
+Merge: 3317c2e eceb087
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Mon Jan 21 07:47:54 2013 -0800
+
+    Merge pull request #56 from nanliu/tb/rbvmomi
+    
+    Update nori version (similar to Rails vulnerability)
+
+commit eceb08748da21db8d17707f3d2ddbfbe6307f4f5
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Jan 21 09:15:25 2013 -0600
+
+    Update nori version (similar to Rails vulnerability)
+
+commit 3317c2ea3db5f9548841e1d502d39f625832bafb
+Merge: f4bd292 e784edc
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Sun Jan 20 22:15:56 2013 -0800
+
+    Merge pull request #55 from nanliu/tb/rbvmomi
+    
+    Add custom rbvmomi gem to deployment.
+
+commit f4bd29212ba32ddcb4a68666833d72e240cb70cd
+Merge: 1b8c7d3 7be6921
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Jan 17 12:19:32 2013 -0800
+
+    Merge pull request #54 from sholland/tb/refactor
+    
+    updated vshield_ipset/application/application_group
+
+commit 7be692124c3ef8cd3b9a1b4f0ed194722a272716
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Thu Jan 17 10:23:30 2013 -0800
+
+    changed .flatten to use ensure_array and cleaned up vshield_application_group with populate_member
+    
+    removed debug and comment
+
+commit e784edc3eba5fb68fde1ffc7f212d08367d925c3
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Jan 17 11:10:02 2013 -0600
+
+    Add custom rbvmomi gem to deployment.
+    
+    We need to work around a rbvmomi issue with ruby 1.8.7. Delivering a
+    custom gem for now since we need this deployed. See below for more info:
+    
+    https://github.com/vmware/rbvmomi/pull/10
+
+commit 1b8c7d3099cbaa4761abc1170ae82f46ab7cfed5
+Merge: da65ab0 24660f9
+Author: sholland <sholland@vmware.com>
+Date:   Thu Jan 17 10:31:48 2013 -0800
+
+    Merge pull request #52 from nanliu/tb/refactor
+    
+    Refactor vShield resources
+
+commit 24660f9d20ea94622c383580968c6636755fccd7
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Jan 17 10:00:54 2013 -0600
+
+    Add method to handle inconsistent data format.
+    
+    Depending on whether a single or multiple value is returned we get
+    either an array or hash. This provides a consistent way of handling
+    them.
+
+commit 271938e3ca4abbcd1206d44ab109951cfa3cc1bb
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Jan 17 09:53:34 2013 -0600
+
+    Refactor vShield_scope_moref
+    
+    Remove scope_moref and use vshield_scope_moref method.
+
+commit da65ab0adf1083f8bcdfbf79ce98ca2de89164d0
+Merge: eb6ff51 0ee695a
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Jan 17 07:49:59 2013 -0800
+
+    Merge pull request #49 from sholland/tb/vnic
+    
+    updated vshield_application_group
+
+commit 0ee695a7492ebec22cfacdf44471930cbc8ddaa4
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Thu Jan 17 07:37:51 2013 -0800
+
+    updated vshield_application_group
+    
+    * added def vnic/vnic= for vshield_edge
+    * added timeout to 300 to vshield
+    
+    Conflicts:
+    
+    	lib/puppet/provider/vshield_application_group/default.rb
+
+commit eb6ff51515b098ec515e50bad61eacdfe7f188b9
+Merge: 1f90852 47206fd
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Jan 17 07:33:26 2013 -0800
+
+    Merge pull request #48 from sholland/tb/vshield_app_grp
+    
+    added vshield_application_group
+
+commit 1f9085261c0cbbac2daba4c7e954c341bc6b5d18
+Merge: bedf536 41d4c4f
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Wed Jan 16 20:24:04 2013 -0800
+
+    Merge pull request #51 from nanliu/tb/nori
+    
+    Pin nori to version 1.1.3.
+
+commit bedf536f4826a3c8bf4232a48e716bba9f29eb97
+Merge: c17b9fc a43baf1
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Jan 16 17:20:22 2013 -0800
+
+    Merge pull request #50 from rbbrown/tb/host-mo_ref
+    
+    Use hostname in input; convert to mo_ref for api
+
+commit 41d4c4fc2fa56648aae216e6414c0af28cbed593
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Jan 16 19:12:19 2013 -0600
+
+    Pin nori to version 1.1.3.
+    
+    Later versions of Nori is not compatible with PE at the moment.
+
+commit a43baf1a85bee6853b98f7629dc2e3d803d8813c
+Author: rbbrown <rbbrown@vmware.com>
+Date:   Mon Jan 14 12:05:03 2013 -0800
+
+    Use hostname in input; convert to mo_ref for api
+    modified:   lib/puppet/provider/vc_cluster_ha/default.rb
+    modified:   tests/cluster-ha-failoverHosts-a.pp
+    modified:   tests/cluster-ha-failoverHosts-b.pp
+    modified:   tests/cluster-ha-failoverHosts-c.pp
+    modified:   tests/cluster-ha-failoverHosts-d.pp
+    new file:   tests/cluster-ha-failoverHosts-e.pp
+
+commit 47206fd28efb8ad09319a13865374bccf02a8593
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Fri Jan 11 16:27:30 2013 -0800
+
+    added vshield_application_group
+    
+    updated provider vshield_application_group
+    
+    updated vshield_application_group to include for when either properties are not specified
+
+commit c17b9fc267d7fe632926d28996b5df4e5efdca3b
+Merge: bb80f67 9e84b96
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Fri Jan 11 14:44:35 2013 -0800
+
+    Merge pull request #44 from rbbrown/tb/esx-syslog-boolean
+    
+    esx_syslog: fixup 'is_now' for boolean
+
+commit 9e84b9662afae76e58d7a7dbc43ecb501db88ddb
+Author: rbbrown <rbbrown@vmware.com>
+Date:   Fri Jan 11 13:21:07 2013 -0800
+
+    esx_syslog: fixup 'is_now' for boolean
+
+commit bb80f6779ed5441e217b44e4b726875c08a4ae40
+Merge: d4d8aee 5a74cad
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Fri Jan 11 12:54:41 2013 -0800
+
+    Merge pull request #36 from rbbrown/tb/host-cluster-ha
+    
+    Cluster HA config with Mapper (vSphere to Puppet adapter)
+
+commit 5a74cad3b3dbf35b7dfe84770e7739d9f62dc1c0
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Fri Jan 4 12:00:44 2013 -0800
+
+    cluster HA configuration;
+    Mapper to provide vSphere to Puppet integration
+    
+    new file:   manifests/cluster.pp
+    new file:   lib/puppet/provider/vc_cluster_ha/default.rb
+    new file:   lib/puppet/type/vc_cluster_ha.rb
+    new file:   lib/puppet_x/vmware/mapper.rb
+    * changes responding to pull request review:
+    * copy_leaf_list -> leaf_list
+    * copy_node_list -> node_list
+    * use VMware_Array property type for failoverHosts
+    * rename generic block parameters (e.g., 'el' -> 'leaf')
+    
+    modified:   lib/puppet_x/vmware/util.rb
+    * added snakeize method (reverse camelize)
+    * added nested_value_set method
+    * copied nested_value method from vshield
+    
+    new file:   tests/cluster-ha-setup.pp
+    new file:   tests/cluster-ha-1.pp
+    new file:   tests/cluster-ha-2.pp
+    new file:   tests/cluster-ha-failoverHosts-a.pp
+    new file:   tests/cluster-ha-failoverHosts-b.pp
+    new file:   tests/cluster-ha-failoverHosts-c.pp
+    new file:   tests/cluster-ha-failoverHosts-d.pp
+    * run setup to create clusters with no HA
+    * run 1,2 and a,b,c,d to modify HA
+
+commit 703063a1a85ea4dd9112a269bb7949f2e4315997
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Fri Jan 4 12:00:44 2013 -0800
+
+    Add Puppet function to handle deep hashes.
+
+commit d4d8aeea68f38ee292be7d4f0ef93cefafc3aa59
+Merge: cfe559a bcfa185
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Jan 10 16:12:32 2013 -0800
+
+    Merge pull request #43 from sholland/master
+    
+    added vshield_application type and provider
+
+commit cfe559ae1a402dceff662f66692c02ac069a6943
+Merge: 3cfaee5 32a8d95
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Thu Jan 10 15:39:06 2013 -0800
+
+    Merge pull request #42 from nanliu/tb/array
+    
+    Update handling of nil Array values.
+
+commit bcfa185eaa58e8ecf9af2a197189d66c10763a8d
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Thu Jan 10 15:25:48 2013 -0800
+
+    added vshield_application
+
+commit 32a8d9520dcf3723e03b7702bb3017bddb17e249
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Jan 10 14:48:30 2013 -0800
+
+    Update handling of nil Array values.
+
+commit 3cfaee54438678f2aec97331d4c267062084f72e
+Merge: a0f5e35 c2bbef2
+Author: sholland <sholland@vmware.com>
+Date:   Thu Jan 10 10:34:42 2013 -0800
+
+    Merge pull request #40 from nanliu/tb/cleanup
+    
+    Update vShield edge retrieval handling.
+
+commit c2bbef2a3c3bd1041e7b40be824cb18ce27d78df
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Jan 10 10:13:27 2013 -0800
+
+    Update vShield edge retrieval handling.
+    
+    Remove rescue all exception and use nested_value. If a rescue is still
+    necessary we will reimplement and limit to specific exceptions.
+
+commit a0f5e359d871e456d4480875ca2c04f2423db7d6
+Merge: 36b6117 38fa288
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Wed Jan 9 22:06:18 2013 -0800
+
+    Merge pull request #39 from nanliu/tb/array
+    
+    Support different VMware_Array behavior.
+
+commit 38fa2887a42db3fe18b00df2789df0b8e3472d3d
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Jan 9 18:57:32 2013 -0800
+
+    Support different VMware_Array behavior.
+    
+    This patch allows array to behave in different ways when declaring new
+    properties. It supports sort and inclusive (both true by default):
+    
+    An unsorted array (order matters):
+    newproperty(:value, :array_matching => :all, :sort => :false, :parent =>
+    Puppet::Property::VMware_Array )
+    
+    An non-inclusive array (insync as long systems include elements)
+    newproperty(:value, :array_matching => :all, :inclusive => :false, :parent =>
+    Puppet::Property::VMware_Array )
+    
+    The reason for using :true, :false is due to retarded internal boolean
+    handling.
+
+commit 36b61173c4fa955c5a4705c5518b708d9f7297b5
+Merge: 3850d3c 549f277
+Author: sholland <sholland@vmware.com>
+Date:   Wed Jan 9 17:52:26 2013 -0800
+
+    Merge pull request #38 from nanliu/tb/cleanup
+    
+    Add vShield ipset resource.
+
+commit 549f277ddb6eba383a027ed26cd8d62c53db707f
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Jan 8 14:36:12 2013 -0800
+
+    Update vShield ipset resource.
+    
+    * Add vmware_array property.
+    * Cleanup debug code.
+    * Implement resource destroy.
+    * Add test example manifests.
+
+commit 4c301770dc3f8a113b8ae2831ca65ff5af5de0d3
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Jan 8 14:40:33 2013 -0800
+
+    Add vShield ipset resource.
+    
+    Cleanup Shawn's branch:
+    
+    * updated vshield_edge files under provider/type
+    * compacted return_pg_id
+    * added rescue when no edge exists and added () around puppet raise error in return_pg_id
+    * added vshield_ipset.pp
+    * added vshield_ipset type/provider
+    * added create function and modified exists function
+    * moved a few functions from vshield_ipset to vshield.rb
+    * updated vshield_ipset
+    * Improve vshield connection error message.
+
+commit 3850d3c223168065726e84f37b22b6d1f24a4d16
+Merge: 25b3981 6396134
+Author: sholland <sholland@vmware.com>
+Date:   Wed Jan 9 14:32:25 2013 -0800
+
+    Merge pull request #37 from nanliu/tb/rest
+    
+    Improve RestClient Error messages.
+
+commit 63961340549d29883180fe2c505ff11c83b27816
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Jan 9 14:18:48 2013 -0800
+
+    Improve RestClient Error messages.
+    
+    Instead of just providing error code, this update gives more error
+    details.
+    
+    Before: "400 Bad Request"
+    After: (Not formatted)
+       400 Bad Request:
+       <error>
+       <details>Not licensed for Entity : vshield-edge feature :  : add
+       on :
+       </details>
+       <errorCode>214</errorCode>
+       <moduleName>core-services</moduleName>
+       </error>
+
+commit 25b3981ceb4b76ab7130eb1d99553d7ba9267ba2
+Merge: f37e49d dd1d674
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Wed Jan 9 12:31:16 2013 -0800
+
+    Merge pull request #35 from nanliu/tb/error
+    
+    Improve vshield connection error message.
+
+commit dd1d6741fc5aff1132aba0567d3ac16596cdf01c
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Jan 8 12:39:03 2013 -0800
+
+    Improve vshield connection error message.
+    
+    Originally the error message was: undefined method `to_hash' for
+    nil:NilClass, now the error message is: vSphere API connection failure:
+    vCenter #{ip_address} connection not available in manifest.
+    
+    Conflicts:
+    	lib/puppet/provider/vshield.rb
+
+commit f37e49daa6484dbf939214574d9ddaf1e8723a0b
+Merge: 6b59a29 bde33c1
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Fri Jan 4 18:32:31 2013 -0800
+
+    Merge pull request #31 from sholland/tb
+    
+    updated vshield_edge files under provider/type
+
+commit bde33c17ab00a5200f851cf3f8f1deede6ed3057
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Wed Jan 2 09:58:09 2013 -0800
+
+    updated vshield_edge files under provider/type
+    
+    compacted return_pg_id
+    
+    added rescue when no edge exists and added () around puppet raise error in return_pg_id
+
+commit 6b59a2927eaf1def99d20421a0ef46e7fd08c77c
+Merge: e4b2349 181a3e0
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Jan 3 12:07:40 2013 -0800
+
+    Merge pull request #27 from nanliu/tb/package
+    
+    Add package installation for gems.
+
+commit e4b2349bee55fec1541f7da7e83f0ef76763102d
+Merge: 7b649b1 d57068d
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Dec 17 16:48:52 2012 -0800
+
+    Merge pull request #28 from rbbrown/tb/esx-syslog-autoreq-ds
+    
+    autorequire datastore if log_dir is specified for esx_syslog
+
+commit d57068d4061f19d11b72cffb58ff7c383791ddec
+Author: rbbrown <rbbrown@vmware.com>
+Date:   Mon Dec 17 16:16:43 2012 -0800
+
+    modified:   lib/puppet/type/esx_syslog.rb
+    * autorequire datastore if log_dir is specified
+
+commit 7b649b1c74fc2389a0cddb7b19bd363777a45119
+Merge: f9ded77 58aa37a
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Thu Dec 13 17:16:41 2012 -0800
+
+    Merge pull request #26 from nanliu/tb/rbvmomi
+    
+    Fix rbvmomi int cast bug.
+
+commit 58aa37a473e789e5d5a88f7a0bc1eb908553d5d6
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Dec 12 12:48:00 2012 -0800
+
+    Fix rbvmomi int cast bug.
+
+commit 181a3e004392a0a3e0e71dc1a4e7f481c44af1c6
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Dec 12 11:45:30 2012 -0800
+
+    Add package installation for gems.
+
+commit f9ded7790ae85ffa356a31949df75908d471d1db
+Merge: dc7a2f2 4a8ab57
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Dec 12 11:31:41 2012 -0800
+
+    Merge pull request #25 from rbbrown/tb/host-cluster-config
+    
+    basic config (drs, evc) for esxi cluster
+
+commit 4a8ab57e5879bb82b12c05b46375cff0c95de4b6
+Author: rbbrown <rbbrown@vmware.com>
+Date:   Tue Dec 11 14:08:58 2012 -0800
+
+    * set cluster's basic drs properties
+    * check cluster's evc_mode - fail if not as expected
+    * add autorequire to vc_host - anchor[:path] to allow host
+      to wait for correct evc_mode (or other cluster configuration)
+    * add tests/vc_cluster*.pp
+
+commit dc7a2f2710645e3046076e91a58e88c3f24de4ea
+Merge: 64aa291 01e8a55
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Dec 5 16:12:40 2012 -0800
+
+    Merge pull request #19 from rbbrown/tb/AddHost_Task
+    
+    enable provider to add host to cluster
+
+commit 64aa29124839d06f0fd9283bbfad5d8c2dd8fc15
+Merge: dbd0ced 6ab5414
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Wed Dec 5 08:49:18 2012 -0800
+
+    Merge pull request #20 from sholland/master
+    
+    adding raise exception if @instance is nil
+
+commit 6ab541465da36baedceffc873eb0a3f20d2ceab7
+Author: sholland@vmware.com <sholland@vmware.com>
+Date:   Tue Dec 4 16:15:01 2012 -0800
+
+    modified def edge_detail with puppet error if @instance does not exist, also added result || [] if edge_summary is nil
+
+commit 01e8a55487fc7fa52160c1d85dec482bdb6a0541
+Author: rbbrown <rbbrown@vmware.com>
+Date:   Tue Dec 4 13:57:30 2012 -0800
+
+    modified:   lib/puppet/provider/vc_host/default.rb
+    * enabled add host to cluster - AddHost_Task
+
+commit dbd0ced21efdf34e156b87942caf3a6f4847a617
+Merge: 7bdcc20 fbfd8c5
+Author: sholland <sholland@vmware.com>
+Date:   Tue Dec 4 13:24:58 2012 -0800
+
+    Merge pull request #16 from nanliu/tb/parse
+    
+    Update vshield syslog when current setting is nil.
+
+commit fbfd8c5b72cb48871337e3b58d46dc385daaff42
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Nov 29 15:15:06 2012 -0800
+
+    Update vshield syslog when current setting is nil.
+    
+    If there are no syslog configured, the current getter fails. Added two
+    methods to handle the initial configuration.
+
+commit 7bdcc204dbd1580a0ef3288c9d5fe0a37f8a3d65
+Merge: 6191602 ef88614
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Dec 4 09:43:13 2012 -0800
+
+    Merge pull request #17 from rbbrown/tb/autorequire-host
+    
+    correct autorequire(:vc_host) from self[:name] to self[:host] for composite  namevars
+
+commit 619160265b55db33ba0105ff0da24ad7c13ec309
+Merge: 954997e 2e9524b
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Mon Dec 3 15:44:30 2012 -0800
+
+    Merge pull request #18 from nanliu/tb/vshield
+    
+    Improve vCenter error message.
+
+commit 2e9524b20ebd093d6e2885e5e9676265a929768e
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Dec 3 12:35:31 2012 -0800
+
+    Improve error message.
+
+commit ef886145187e70aca10b6ab3d872043a6046e72c
+Author: rbbrown <rbbrown@vmware.com>
+Date:   Fri Nov 30 16:07:48 2012 -0800
+
+    modified:   lib/puppet/type/esx_service.rb
+    modified:   lib/puppet/type/esx_datastore.rb
+    * correct autorequire from :name to :host
+
+commit 954997eb2aa4095eb584a7c2a83637ffee3872e2
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Fri Nov 30 15:40:50 2012 -0800
+
+    Remove debugger.
+
+commit 18ff1cf68d43f7234a4a953e1340674ebfe4b53c
+Merge: 96e8746 ea4ad44
+Author: sholland <sholland@vmware.com>
+Date:   Fri Nov 30 10:34:14 2012 -0800
+
+    Merge pull request #12 from nanliu/tb/vshield
+    
+    Add vshield_edge resource.
+
+commit 96e87462f8dbc9ddda8824e248ebab80c92431d9
+Merge: 5a73b33 7def66e
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Nov 28 09:59:36 2012 -0800
+
+    Merge pull request #15 from nanliu/tb/parse
+    
+    Fix vShield syslog when current setting nil.
+
+commit 5a73b333829f20755d48ea1d3a7176aa3b721c1b
+Merge: e4463b2 bbd374a
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Nov 28 09:58:37 2012 -0800
+
+    Merge pull request #14 from nanliu/tb/server
+    
+    Fix manifest error.
+
+commit 7def66e3a9673572a112a50d310d63a844019043
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Nov 28 09:51:10 2012 -0800
+
+    Fix vShield syslog when current setting nil.
+    
+    When the current vShield syslog setting is nil, we can't treat it like
+    an array. This fixes the problem during initial configuration.
+
+commit bbd374a928f6d7d94ba7a5c3a528ff5abecf7c7b
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Nov 27 16:53:46 2012 -0800
+
+    Fix manifest error.
+
+commit e4463b2d4d05c5b564765ceb0e43e0fc709811a8
+Merge: 7a028ac d8ce5fe
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Tue Nov 27 15:37:07 2012 -0800
+
+    Merge pull request #13 from nanliu/tb/puppetx
+    
+    Fix PuppetX for esx_datastore.
+
+commit ea4ad448a938f20ce227420aaa1009a5235acfd2
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Nov 20 11:26:54 2012 -0800
+
+    Add vshield_edge resource.
+
+commit d8ce5febe4dfdc850be5fe0551b6e8b4ecdc5e29
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Nov 27 14:38:17 2012 -0800
+
+    Fix PuppetX for esx_datastore.
+
+commit 7a028acb2d5714ed8774dcaf037b4c7b51a9bd0b
+Merge: 1043922 abd05f3
+Author: Branan Purvine-Riley <branan@puppetlabs.com>
+Date:   Wed Nov 21 15:08:10 2012 -0800
+
+    Merge pull request #8 from nanliu/tb/rest
+    
+    Update vShield REST requests to support multiple version.
+
+commit 1043922502ba3eaca62c30a014b983d242bbec62
+Merge: 42d7545 803982b
+Author: Branan Purvine-Riley <branan@puppetlabs.com>
+Date:   Wed Nov 21 15:07:21 2012 -0800
+
+    Merge pull request #9 from nanliu/tb/transport
+    
+    Change transport retrieval to support multiple connection.
+
+commit 42d7545d466b81662cd140280c1904973cdc1ba2
+Merge: 7a089ed f6eb09f
+Author: Branan Purvine-Riley <branan@puppetlabs.com>
+Date:   Wed Nov 21 15:05:26 2012 -0800
+
+    Merge pull request #10 from nanliu/tb/misc
+    
+    Minor quote and comments.
+
+commit 7a089ed721c889868b72eb890c4ed4994399be76
+Merge: 5210a9c f2b311e
+Author: Branan Purvine-Riley <branan@puppetlabs.com>
+Date:   Wed Nov 21 15:05:03 2012 -0800
+
+    Merge pull request #11 from nanliu/tb/load
+    
+    Fix 14073 related loading issues.
+
+commit abd05f370af6ec15e12d92180b806b89101c5d04
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Nov 19 17:46:35 2012 -0800
+
+    Update vShield REST requests to support multiple version.
+    
+    The original assumption that all vShield calls are 2.0 is wrong. This
+    removes this faulty assumption. This also adds a few other REST
+    requests.
+
+commit f6eb09fb0a0bf3105493442c34955ed12fca84e1
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Nov 19 17:48:55 2012 -0800
+
+    Minor quote and comments.
+
+commit 803982bd2dbb1d12740f06da3ebe6031b77b9f24
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Nov 19 17:37:22 2012 -0800
+
+    Change transport retrieval to support multiple connection.
+    
+    Originally it was intended for one transport per resource, but for
+    vShield we need multiple transport per resource and the ability to
+    discover the vShield associated vCenter system without the user
+    specifying the connection. This update allows discovery of the
+    associated vCenter system through vShield API calls, but use the
+    connection info from the manifest (since it's not available in vShield).
+
+commit f2b311ef77c7a50805c4376ef9d6ad33468c701a
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Nov 19 17:31:39 2012 -0800
+
+    Fix 14073 related loading issues.
+
+commit 5210a9c3163db3b0e3704d3f27281acc3499faa8
+Merge: 0d1d499 df632f1
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Nov 20 10:01:38 2012 -0800
+
+    Merge pull request #7 from rbbrown/tb/simple-esx-service-management
+    
+    Add ESX shells and SSH management
+
+commit df632f11bad930f6aaa57f0b6c9cdb40160c9cf7
+Author: rbbrown <rbbrown@vmware.com>
+Date:   Wed Nov 14 15:46:49 2012 -0800
+
+    * add esx_shells resource for ESXi Shell and SSH
+    ** paremeeters ESXiShellTimeOut, ESXiShellInteractiveTimeOut, suppressShellWarning
+    new file:   lib/puppet/provider/esx_shells/default.rb
+    new file:   lib/puppet/type/esx_shells.rb
+    modified:   manifests/host.pp
+    
+    * clean up 'false' strings in manifests/host.pp
+    
+    * fix tabs - use spaces
+    
+    * use include? to avoid begin .. rescue .. end
+
+commit 0d1d499dde46f826853b2e349b7d0b30e4893d51
+Merge: 43062bc 936d06d
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Fri Nov 16 16:43:28 2012 -0800
+
+    Merge pull request #6 from rbbrown/tb/esx_services-true-fals
+    
+    Remove sketchy munge to solidify usage of :true,:false vs true,false
+
+commit 936d06d37968816ea5ecd3aba0bc75006e42b550
+Author: rbbrown <rbbrown@vmware.com>
+Date:   Fri Nov 16 16:28:14 2012 -0800
+
+    more conventional syntax
+
+commit 30e9a7b70fabbc0b97c14213f4da015865897aa1
+Author: rbbrown <rbbrown@vmware.com>
+Date:   Fri Nov 16 13:33:12 2012 -0800
+
+    - Remove sketchy munge to solidify usage of :true,:false vs true,false
+    - Add error checks and debug, including is_to_s and should_to_s
+    modified:   lib/puppet/provider/esx_service/default.rb
+    modified:   lib/puppet/type/esx_service.rb
+
+commit 43062bcc98f722b76a11d1263a08449be70708b7
+Merge: 8cf5809 768e331
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Fri Nov 16 09:19:56 2012 -0800
+
+    Merge pull request #5 from nanliu/tb/vshield
+    
+    Add vshield_global_config resource
+
+commit 768e331ea49e266af65aa560c3c961e8c52883fc
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Nov 14 17:41:49 2012 -0800
+
+    Add vshield_global_config resource.
+
+commit 8cf5809a1f0a2becc2ce90ad04ee84b983bc22a3
+Merge: 1e4d8ba d8e3df2
+Author: Randy Brown <rbbrown@vmware.com>
+Date:   Wed Nov 14 14:56:22 2012 -0800
+
+    Merge pull request #4 from nanliu/tb/vshield
+    
+    Add vshield syslog resource type. + snake_case with camelize()
+
+commit d8e3df247511f1f67b43e5f240acc9bf792d24a5
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Nov 14 14:44:43 2012 -0800
+
+    Remove unused property.
+
+commit 8886bcefaf7d3f9017874c0d37e917b132a58d8f
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Nov 14 14:13:20 2012 -0800
+
+    Update hash to defensively remove key.
+
+commit 68ef1723d7364c6711287e22c91b306225c80c8d
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Nov 14 13:21:00 2012 -0800
+
+    Change camelize to be explicit.
+
+commit b39a059e212dc6b652eab62dd3e32f37ed28aa0c
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Nov 14 10:46:39 2012 -0800
+
+    Revert camelize to a util method.
+
+commit 0bca2be66d8589beea1efa0bfa600d468f0cdfad
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Nov 13 16:45:46 2012 -0800
+
+    Rename type and property.
+    
+    * Update vshield property to vmware property.
+    * Update vs_syslog to vshield syslog.
+
+commit aad3de4f598a56abfbd1b07e7b82868b2b9859ad
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Nov 12 16:54:32 2012 -0800
+
+    Migrate from camelCase to snake_case
+    
+    Due to some issues with internal representation of camelCase, we are
+    moving attributes to snake_case instead for readability.
+
+commit 26277ed33e4091b28e49e5a5a301633544685e6a
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Mon Nov 12 14:08:33 2012 -0800
+
+    Add vshield syslog resource type.
+
+commit 1e4d8bad58817c43e2d7a9656f236ce74d1d6ecd
+Merge: df46c5c 6136ce3
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Nov 8 15:15:58 2012 -0800
+
+    Merge pull request #3 from rbbrown/tb/simple-esx-service-management
+    
+    * state management for "simple" esx services
+
+commit 6136ce30db552c2b88fdfc9e5eb78c71bd4a2716
+Author: rbbrown <rbbrown@vmware.com>
+Date:   Mon Nov 5 15:26:18 2012 -0800
+
+    * remove debug that is redundant to puppet events
+    modified:   lib/puppet/provider/esx_service/default.rb
+
+commit edec11700540ec76cf74b40344c77d99f284bee2
+Author: rbbrown <rbbrown@vmware.com>
+Date:   Mon Nov 5 13:51:13 2012 -0800
+
+    * state management for "simple" esx services
+    * "simple" as in "managed by HostServiceSystem"
+    * policy (off, on, automatic); running (true, false)
+    modified:   lib/puppet/provider/esx_service/default.rb
+    modified:   lib/puppet/type/esx_service.rb
+    
+    * proof of concept for svc state management with NTPD
+    * fixed buglet in dateTimeConfig default setup
+    modified:   manifests/host.pp
+
+commit df46c5ca6c1f7e5f3c518175d57ec424d94f261a
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Fri Nov 2 11:44:39 2012 -0700
+
+    Add vm resource management.
+
+commit 3e002340a1d4b78fdab1f6a9d8047b1ece762a89
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Nov 1 08:16:55 2012 -0700
+
+    Add esx_syslog resource type.
+    
+    This resource have problems managing Int values until we can resolve an
+    issue with rbvmomi autocasting to long. The rbvmomi code needs some
+    patching to work for ruby 1.8.7.
+
+commit 1cc56fa38ca9cd69b869acc5027219af1315e284
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 30 15:03:05 2012 -0700
+
+    Add datastore support.
+
+commit 4c077fcb420c65f5eb20036518d909937b0f27d5
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 30 15:02:27 2012 -0700
+
+    Update esx_service.
+
+commit 87fcb013697d8feeb8c075dcf71ebe51f67bc626
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 30 15:02:08 2012 -0700
+
+    Add debug resource.
+
+commit a6471bbe06606ac7ee64b87d3ed5f82206a824e8
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 30 14:25:03 2012 -0700
+
+    Fix ssh debug output.
+
+commit e70dfcf8583acc4f065f5a6785a0c6622379a571
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 30 14:21:46 2012 -0700
+
+    Fix ssh transport.
+
+commit 51686ef492f592621e37908f2c4a9f2fa74edd15
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Oct 25 14:59:02 2012 -0700
+
+    Move transport to module puppet_x.
+
+commit 8daaed52631709b3c84b450b1a546ab6998687dd
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Oct 24 15:52:49 2012 -0700
+
+    Fix ntpconfig munge mistake.
+
+commit 51c620420d6b18bb18f8e78b3257adc7704f355f
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Oct 24 11:12:10 2012 -0700
+
+    Remove debug.
+
+commit 57da2e19ede871fa884b0eec72ee6c50c566f1c1
+Merge: 578f131 3c2b0e4
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Oct 24 11:11:05 2012 -0700
+
+    Merge branch 'master' of github.com:puppetlabs/VMware-vCenter
+
+commit 578f1312ee8bbbf1c980ffc9a5703b65a7c4a7bb
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Oct 24 11:09:49 2012 -0700
+
+    Add service refresh.
+
+commit 3c2b0e442bae201210b753e1a7b3999792f16c86
+Merge: 9fd8455 275525a
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 23 17:14:05 2012 -0700
+
+    Merge pull request #1 from xaque208/dvswitchgroundwork
+    
+    Dvswitchgroundwork
+
+commit 9fd8455f6b26d3a33833e4375e53aa7c70b4edb1
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 23 17:12:38 2012 -0700
+
+    Update ntp server to accept only array first.
+    
+    * The ntp server does not actually accept a list.
+    * Add missing tests manifests files.
+
+commit e65f689292587571b5802450d853a09ac06c0ca1
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 23 16:56:30 2012 -0700
+
+    Refactor vcenter transport and add esx resources.
+    
+    * Add ESX ntp, timezone resource.
+    * Transport resource adds transport metaparameter.
+    * Update transport to use ssh, vsphere.
+    * Update transport to track connections.
+    * Update existing resources to use new transport.
+
+commit b4e7449efb39375060210844ad3243282b474b5b
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 23 00:13:25 2012 -0700
+
+    Update vc_host resource.
+
+commit 275525af200abbf2382609d2dab94d380ee78866
+Merge: 1a3f67f 4af42e5
+Author: Zach Leslie <zach@puppetlabs.com>
+Date:   Fri Oct 19 17:08:15 2012 -0700
+
+    Merge github.com:puppetlabs/VMware-vCenter into dvswitchgroundwork
+
+commit 4af42e5e76e0a628d4a7116d41d037975ee044f5
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Fri Oct 19 16:24:35 2012 -0700
+
+    Provide ability to walk tree using FindInventoryPath.
+
+commit b48bfb35986062fa74ce0e5db3f6e330d33bf958
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Fri Oct 19 15:03:15 2012 -0700
+
+    Fix vcsa examples with new transport.
+
+commit 1a3f67f233ad67a8cc070c2beeac03dc6265c1c6
+Author: Zach Leslie <zach@puppetlabs.com>
+Date:   Fri Oct 19 10:41:30 2012 -0700
+
+    Initial code for distributed switches and portgroups.
+
+commit ced212347dee6210a5865c8552e6a779dbd85de6
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Fri Oct 19 13:58:49 2012 -0700
+
+    Update code to reflect new locate method.
+    
+    The exists? method should use locate and specify the class we expect to
+    return, this simplifies the existing code.
+
+commit 477c30d78b44a6e7de253b419642df2c6f7bacb5
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Oct 18 15:06:46 2012 -0700
+
+    Fix typos and bugs.
+
+commit dae5d0b5692df0c367a794bebbfc2704235f0450
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Oct 18 13:15:30 2012 -0700
+
+    remove uncessary code.
+
+commit dce831d9b966d0e11dfd6a02b772a34e819deee7
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Oct 18 13:12:52 2012 -0700
+
+    Update vc_* resource to use transport.
+    
+    * rename vcsa_trasport to transport resource.
+    * add vcenter transport to reuse vim connection.
+    * add additional resource examples.
+
+commit a14fc831165ea31af6b7f7a286e40ec215e0d23a
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Oct 17 23:04:21 2012 -0700
+
+    Update existing vc_* resources.
+    
+    * Simplify vcenter path searching via traverse.
+    * Make all vc_* resource share a parent provider.
+    * Show actual vSphere API calls in provider.
+
+commit 9bc663c52cb8bfd835d8dc57e8ae40070480d614
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Oct 17 15:57:35 2012 -0700
+
+    Change vcenter to a parent provider.
+
+commit 6096a498aea10f511cdd650934e6aa5a4e70cdce
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Oct 17 13:31:47 2012 -0700
+
+    Align comments.
+
+commit a102c309dcca04060cf92f911b71f491550e679f
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed Oct 17 13:18:44 2012 -0700
+
+    Split vcsa and server role.
+    
+    * Move class vcenter to vcenter::server.
+    * Add documentation generated from pocco.
+
+commit cbd9dc15f33ae4e39d3e67a10016701872f3e901
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 16 23:57:56 2012 -0700
+
+    Add vcsa sso options for database.
+
+commit 1e79b6c826b8bca2cbd735a070af9f102303d0c7
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 16 18:11:45 2012 -0700
+
+    Add additional vcsa resources and manifest.
+    
+    * Support java, db, and service management.
+
+commit 0863df744f718c456de3f4cc59f3f5bb5e10cdd3
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 16 13:20:33 2012 -0700
+
+    Fix accept to alias present.
+
+commit 1eb48b3bb31cd8b2346ccdd76c381dc6689dcaf8
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Oct 16 12:07:55 2012 -0700
+
+    Add vcsa_eula resource.
+
+commit 2458481a75c95be3c35eb08bb5703d5a081c6264
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Tue Oct 9 14:17:57 2012 -0700
+
+    Change license.
+
+commit 197ce4aca9b21ef71def0ef70c4723571d1e3d6b
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Mon Aug 20 17:53:26 2012 -0700
+
+    Update README documentation.
+    
+    * Add vc_* resource examples.
+    * Add installation via puppet module tool.
+    * Add module dependencies.
+
+commit c30dd0d5d44d4cf7a010a6080ade6f84441b7917
+Merge: de7b1fc 821fe4e
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue Jun 12 07:44:56 2012 -0700
+
+    Merge pull request #11 from HarryPan/tb/reqrbvmomi
+    
+    Remove the dependency that Puppet master requires rbvmomi.
+
+commit 821fe4e87a907ee3f0adf268de4a08683f9c736c
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed Jun 6 16:07:25 2012 -0700
+
+    Remove the dependency that Puppet master requires rbvmomi.
+
+commit de7b1fc354d64c43583114e425ce2dd8e1149d00
+Merge: 457375d e6a2b51
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Fri Jun 1 17:27:14 2012 -0700
+
+    Merge pull request #7 from nanliu/master
+    
+    Provide fix for loadpath issue.
+
+commit e6a2b51328ccde9fa3e67bf5c97d7bd32e63363a
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Fri Jun 1 17:25:44 2012 -0700
+
+    Provide fix for loadpath issue.
+
+commit 457375daf28937c20795f3f5b705ecb283a08fa0
+Merge: efc1b59 29e699b
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Fri Jun 1 16:55:50 2012 -0700
+
+    Merge pull request #6 from nanliu/tb/registry
+    
+    Add rbvmomi gem and make exec idempotent.
+
+commit efc1b59ed962af12dea01727ccc547f2471e529a
+Merge: af5409e 6ce03d3
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Fri Jun 1 16:50:48 2012 -0700
+
+    Merge pull request #4 from nanliu/tb/registry
+    
+    Change vcenter to use registry module.
+
+commit af5409e4432adbf34f4e90a90ddc5dd614957065
+Merge: eb12ccd 557edd1
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Fri Jun 1 16:30:34 2012 -0700
+
+    Merge pull request #3 from HarryPan/master
+    
+    Working implementation of host type/provider.
+
+commit 557edd1f0ae6cfe6c05534ae06d8e98dd3286b47
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Fri Jun 1 15:00:41 2012 -0700
+
+    Add validation and munging to types.
+
+commit 29e699bad1a97fd6ea76c7d2dd492a4d04346ac8
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Fri Jun 1 16:50:58 2012 +0000
+
+    Add rbvmomi gem and make exec idempotent.
+    
+    We need rbvmomi gem for the vcenter resources.
+
+commit 6ce03d328c1da507992f57be14431943ede05ba0
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Fri Jun 1 13:34:16 2012 +0000
+
+    Misc updates to module.
+    
+    * Increase installation timeout.
+    * Refactor registry resources to use resource defaults.
+    * Update README for typos and parameter changes.
+
+commit fc1a4d5e7b930212b603f31d0112a36ed69ebb42
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Fri Jun 1 11:10:36 2012 +0000
+
+    Fix README whitespace.
+
+commit 05580d2118f1f9e9ed2312ba294efa53338ef466
+Merge: 56497a5 eb12ccd
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Fri Jun 1 11:02:02 2012 +0000
+
+    Merge branch 'master' of github.com:puppetlabs/puppetlabs-vcenter into tb/registry
+
+commit 56497a5cfa96d47b5b2b33e841c356f07910b91c
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Fri Jun 1 10:58:56 2012 +0000
+
+    Update resource relationship.
+    
+    Due to changes to support registry, we need to update dependencies to ensure
+    vCenter is installed after MSSQL.
+
+commit 93bacb3a56eeafe2139053aa6bf700848fed35ee
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Fri Jun 1 17:31:15 2012 +0000
+
+    Additional testing.
+
+commit 006cfe4312ae2a7d2c8ca3b6c9c5f000059d339d
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Thu May 31 17:00:33 2012 -0700
+
+    Add parent registry key.
+
+commit 8028f31c642a9bc6e8fcf649ce808a121bc3d162
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Thu May 31 16:42:15 2012 -0700
+
+    Remove exec relationship.
+
+commit f47e19eeb1988ff0bfa64842af1f07f67dcbdef4
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Thu May 31 16:06:12 2012 -0700
+
+    Change vcenter to use registry module.
+    
+    * Add registry support.
+    * Remove registry template file.
+    * Add License and Modulefile.
+
+commit 0dabc77e65fee10c7ebf148a5388c25426caf37d
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 30 15:10:59 2012 -0700
+
+    Minor changes in comments.
+
+commit ba812878bd2bd9a287ad7f461b888fb0c2bfcaa0
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 23 15:25:06 2012 -0700
+
+    Add a TODO comment about moving host.
+
+commit d9c10e2b7b79246603ff8b42a9e4ca65de7debe9
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 23 15:06:31 2012 -0700
+
+    Break a long line.
+
+commit e1a9673e88a04ae44fe25db3036b6cbb1b9500b2
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 23 14:38:41 2012 -0700
+
+    Make exists? return false when the path is invalid.
+    
+    This is only for container types (Clusters, Datacenters and Folders),
+    not for Hosts.
+
+commit d4289713f8904455080c53dd4ae4f91f7d121381
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 23 13:12:04 2012 -0700
+
+    Tiny bug caused by module name change.
+
+commit 7f6249e2248549eee788a4c117e04453d8af1563
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 23 11:30:59 2012 -0700
+
+    Implement autorequire.
+
+commit 312ccc45fdeb8e5f2c07d1a166e7c75f5f7b1d3c
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 23 11:05:13 2012 -0700
+
+    Put provider_base.rb under lib/puppet/modules/vcenter/.
+
+commit d137d4b40c974ad4100ff7e598684e7df6eef352
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Tue May 22 17:23:00 2012 -0700
+
+    Add exception handling when rbvmomi isn't found.
+
+commit 2b01788dcf58451623864e3f3096c3bcb8754508
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Tue May 22 17:09:49 2012 -0700
+
+    Remove "require 'rbvmomi'" from providers.
+    
+    Renamed VCenter, a shared module among all providers, to ProviderBase.
+    It still requires RbVmomi but only when mixed in.
+
+commit f4b4667b76f0d2823ffdcdeb34d73966531f0eed
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Tue May 22 16:51:32 2012 -0700
+
+    Remove "require 'rbvmomi'" from providers.
+    
+    Renamed VCenter, a shared module among all providers, to ProviderBase.
+    It still requires RbVmomi.
+
+commit db0c2b057e15035aac3f9dac7c0759bc9922cf65
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 9 10:26:42 2012 -0700
+
+    Fixed the issue of moving a host between clusters.
+
+commit 4c72e7f08cf6184feccc717fe8996d3b8355d29f
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 9 09:52:59 2012 -0700
+
+    Fixed a tiny bug.
+
+commit efc33d74ad1a3112feb18aab48c84f8f28ca313b
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Tue May 8 16:53:34 2012 -0700
+
+    Refactor the destroy method of providers.
+
+commit 81060cbdeabf6712474e5334ebcf5e9b82981710
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Tue May 8 16:04:00 2012 -0700
+
+    Added support for Clusters.
+
+commit c7533a2681b53ecd6271ac6f9885af92d0d658a4
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Tue May 8 16:00:20 2012 -0700
+
+    Threw in Clusters.
+    
+    The code now works with Datacenters/Folders/Clusters/Hosts.
+
+commit ce24daadcbd3a5d6586f31341326cb31c82dcd1e
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Fri May 4 11:25:48 2012 -0700
+
+    Folder type and provider.
+
+commit 05924494cf24c8eb1c2e71933d34b48a49692ad2
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Fri May 4 09:47:33 2012 -0700
+
+    Small improvement in module declaration.
+
+commit c231ebe8a89480544c678537b097cd22a305e564
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Thu May 3 17:37:43 2012 -0700
+
+    Refactor common code in providers into module vcenter.rb.
+
+commit da03bc75dfbd96b22f4bbcc9eabbfc47beb6b6d9
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Thu May 3 10:46:44 2012 -0700
+
+    Implemented main functionalities of host type/provider.
+
+commit 76b270ce820fa66c98f1d68fe97c4777972d21b6
+Merge: eb12ccd a9334f5
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 2 13:49:02 2012 -0700
+
+    Merge branch 'nan/tb/vcenter'
+
+commit eb12ccdf8b1bcfbfd128df71af2a170345f87f5b
+Merge: 90bf7a2 b7940fb
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Wed May 2 10:38:14 2012 -0700
+
+    Merge pull request #2 from HarryPan/readme
+    
+    Add installation instruction to README file.
+
+commit b7940fbdd123c02fe61ad6fc3866c9fd55e7042a
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 2 10:35:09 2012 -0700
+
+    Add installation instruction to README file.
+
+commit a9334f5bc8a1547e5f4d771317dd8697fbbcc1db
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 2 10:21:05 2012 -0700
+
+    Add comments on create.
+
+commit 258fc1c4e8d5e9752ed07d0ed0c1115f1afb147f
+Author: HarryPan <harry@puppetlabs.com>
+Date:   Wed May 2 09:26:34 2012 -0700
+
+    Basic implementation of datacenter provider.  Not checking input yet -
+    connection has to be in the form of user:pwd@host and path /foo/bar/dc/.
+
+commit 27e2c033c1c7e3facbd01c6dd61c107f707adcc7
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Tue May 1 11:07:05 2012 -0700
+
+    Add skeleton for types/provider for datacenter.
+
+commit 90bf7a2157c8b7a718c30845976cc45c8b786903
+Merge: 49e6fcd 0239f9a
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Tue May 1 10:41:50 2012 -0700
+
+    Merge pull request #1 from nanliu/master
+    
+    Initial vCenter commit.
+
+commit 49e6fcdc314a6e0fe9c2ecd235af73724fd10dce
+Author: Nan Liu <nan.liu@gmail.com>
+Date:   Thu Apr 26 15:46:00 2012 -0700
+
+    initial commit
+
+commit 0239f9a283d91bdd9f22d646bdea1ce310322387
+Author: Nan Liu <nan@puppetlabs.com>
+Date:   Thu Apr 26 03:29:39 2012 +0000
+
+    Initial commit.
