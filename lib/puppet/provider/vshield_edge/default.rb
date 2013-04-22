@@ -130,9 +130,10 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
 
   def datastore
     if resource[:datastore_name]
-      datacenter.find_datastore(resource[:datastore_name])
+      msg = "datastore: #{resource[:datastore_name]} not found"
+      datacenter.find_datastore(resource[:datastore_name]) or raise Puppet::Error, msg
     else
-      resource_pool.datastore.first
+      resource_pool.datastore.first or raise Puppet::Error, "no datastore found"
     end
   end
 end
