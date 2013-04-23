@@ -6,7 +6,17 @@ require File.join vmware_module.path, 'lib/puppet/property/vmware'
 Puppet::Type.newtype(:vshield_vxlan_map) do
   @doc = 'Map a cluster to a vDS.'
 
-  ensurable
+  ensurable do
+    newvalue(:present) do
+      provider.create
+    end
+
+    newvalue(:absent) do
+      provider.destroy
+    end
+
+    defaultto(:present)
+  end
 
   newparam(:vlan_id, :namevar => true) do
     desc 'vlan id'
