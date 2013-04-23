@@ -6,7 +6,17 @@ require File.join vmware_module.path, 'lib/puppet/property/vmware'
 Puppet::Type.newtype(:vshield_vxlan_switch) do
   @doc = 'Prepare switch for VXLAN Virtual Wires.'
 
-  ensurable
+  ensurable do
+    newvalue(:present) do
+      provider.create
+    end
+
+    newvalue(:absent) do
+      provider.destroy
+    end
+
+    defaultto(:present)
+  end
 
   newparam(:name, :namevar => true) do
     desc "The path to the dvswitch."
