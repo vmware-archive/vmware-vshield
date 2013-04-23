@@ -15,7 +15,6 @@ transport { 'vcenter':
 }
 
 vshield_vxlan_switch { "${vxlan_switch1['switch']['name']}":
-  ensure            => present,
   switch            => $vxlan_switch1['switch'],
   teaming           => $vxlan_switch1['teaming'],
   mtu               => $vxlan_switch1['mtu'],
@@ -24,7 +23,6 @@ vshield_vxlan_switch { "${vxlan_switch1['switch']['name']}":
 }
 
 vshield_vxlan_map { $vxlan_map1['vlan_id']:
-  ensure          => present,
   switch          => $vxlan_map1['switch'],
   vlan_id         => $vxlan_map1['vlan_id'],
   datacenter_name => $dc1['name'],
@@ -34,7 +32,6 @@ vshield_vxlan_map { $vxlan_map1['vlan_id']:
 }
 
 vshield_vxlan_segment { $vxlan_segment1['name']:
-  ensure    => present,
   id        => $vxlan_segment1['id'],
   name      => $vxlan_segment1['name'],
   desc      => $vxlan_segment1['desc'],
@@ -45,7 +42,6 @@ vshield_vxlan_segment { $vxlan_segment1['name']:
 }
 
 vshield_vxlan_multicast { $vxlan_multicast1['name']:
-  ensure    => present,
   id        => $vxlan_multicast1['id'],
   name      => $vxlan_multicast1['name'],
   desc      => $vxlan_multicast1['desc'],
@@ -56,7 +52,6 @@ vshield_vxlan_multicast { $vxlan_multicast1['name']:
 }
 
 vshield_vxlan_scope { $vxlan_scope1['name']:
-  ensure          => present,
   name            => $vxlan_scope1['name'],
   clusters        => $vxlan_scope1['clusters'],
   datacenter_name => $dc1['name'],
@@ -66,7 +61,6 @@ vshield_vxlan_scope { $vxlan_scope1['name']:
 }
 
 vshield_vxlan { $vxlan1['name']:
-  ensure      => present,
   name        => $vxlan1['name'],
   description => $vxlan1['description'],
   tenant_id   => $vxlan1['tenant_id'],
