@@ -87,6 +87,8 @@ class Puppet::Provider::Vshield <  Puppet::Provider
       value
     when Hash
       [value]
+    when Nori::StringWithAttributes
+      [value]
     else
       raise Puppet::Error, "Unknown type for munging #{value.class}: '#{value}'"
     end

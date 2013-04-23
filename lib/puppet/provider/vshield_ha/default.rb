@@ -50,7 +50,7 @@ Puppet::Type.type(:vshield_ha).provide(:default, :parent => Puppet::Provider::Vs
   def validate_vnic(vnic)
     vnic_url   = "api/3.0/edges/#{vshield_edge_moref}/vnics"
     cur_vnics  = nested_value(get("#{vnic_url}"), [ 'vnics', 'vnic' ] )
-    result     = cur_vnics.find{|x| x['index'] == vnic }
+    result     = cur_vnics.find{|x| x['index'] == vnic.to_s }
 
     error_msg  = "vnic: #{vnic} not found for: #{resource[:name]}"
     raise Puppet::Error, "#{error_msg}" if result.nil?
