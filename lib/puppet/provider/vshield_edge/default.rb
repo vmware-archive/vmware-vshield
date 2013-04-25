@@ -125,7 +125,7 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
   end
 
   def resource_pool(name=resource[:resource_pool_name])
-    datacenter.find_compute_resource(name) or raise Puppet::Error, "resource_pool resource '#{name}' not found."
+    datacenter.find_compute_resource(name) or raise Puppet::Error, "resource_pool/cluster resource '#{name}' not found."
   end
 
   def datastore
