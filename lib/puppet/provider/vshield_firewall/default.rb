@@ -37,6 +37,7 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
         if not @fw_rule[prop] 
           @fw_rule[prop] = {}
           @fw_rule[prop]['groupingObjectId'] = ensure_array(@fw_rule[prop]['groupingObjectId'])
+          @fw_rule[prop]['vnicGroupId']      = ensure_array(@fw_rule[prop]['vnicGroupId'])
         end
       end
       if not @fw_rule['application']
@@ -47,10 +48,30 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
   end
 
   def replace_properties
-    @fw_rule['action']                          = resource[:action]
-    @fw_rule['source']['groupingObjectId']      = ipset_sub_id('source') if resource[:source]
-    @fw_rule['destination']['groupingObjectId'] = ipset_sub_id('destination') if resource[:destination]
-    @fw_rule['application']['applicationId']    = app_sub_id
+    [ 'source', 'destination' ].each do |src_or_dest|
+      next if not resource[src_or_dest.to_sym]
+      vnic_group_ids      = []
+      grouping_object_ids = []
+      resource[src_or_dest.to_sym].each do |name|
+        case name
+        when /^(external|internal|vse)$/
+          vnic_group_ids << name
+        when /^vnic[0-9]$/
+          vnic_num = name.sub('vnic','')
+          vnic_group_ids << "vnic-index-#{vnic_num}"
+        else
+          ipset = @cur_ipsets.find{|x| x['name'] == name}
+          msg   = "ipset: #{name} does not exist for resource: #{resource[:name]},
+                   property: #{resource[:"#{src_or_dest}"].inspect}"
+          raise Puppet::Error, "#{msg}" if ipset.nil?
+          grouping_object_ids << ipset['objectId']
+        end
+      end
+      @fw_rule[src_or_dest]['vnicGroupId']      = vnic_group_ids
+      @fw_rule[src_or_dest]['groupingObjectId'] = grouping_object_ids
+    end
+    @fw_rule['application']['applicationId'] = app_sub_id
+    @fw_rule['action']                       = resource[:action]
   end
 
   def create
@@ -67,30 +88,25 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
     Puppet.notice("delete Not implemented")
   end
 
-  def source
-    source = []
-    @fw_rule['source']['groupingObjectId'].each do |id|
-      ipset = @cur_ipsets.find{|x| x['objectId'] == id}
-      source << ipset['name'] if ipset and ipset['name']
+  [ 'source', 'destination' ].each do |src_or_dest|
+    define_method(src_or_dest.to_sym) do
+      names = []
+      @fw_rule[src_or_dest]['vnicGroupId']      = ensure_array(@fw_rule[src_or_dest]['vnicGroupId'])
+      @fw_rule[src_or_dest]['groupingObjectId'] = ensure_array(@fw_rule[src_or_dest]['groupingObjectId'])
+
+      @fw_rule[src_or_dest]['groupingObjectId'].each do |id|
+        ipset = @cur_ipsets.find{|x| x['objectId'] == id}
+        names << ipset['name'] if ipset and ipset['name']
+      end
+      @fw_rule[src_or_dest]['vnicGroupId'].each do |name|
+        names << name
+      end
+      names.sort
     end
-    source.sort
-  end
 
-  def source=(src=resource[:source])
-    @pending_changes = true
-  end
-
-  def destination
-    dest = []
-    @fw_rule['destination']['groupingObjectId'].each do |id|
-      ipset = @cur_ipsets.find{|x| x['objectId'] == id}
-      dest << ipset['name'] if ipset and ipset['name']
+    define_method("#{src_or_dest}=".to_sym) do |value|
+      @pending_changes = true
     end
-    dest.sort
-  end
-
-  def destination=(dest=resource[:destination])
-    @pending_changes = true
   end
 
   def service_application
@@ -134,26 +150,6 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
   #  @pending_changes = true
   #end
 
-  def ipset_sub_id(src_or_dest)
-    ids = []
-    resource[:"#{src_or_dest}"].each do |name|
-      case name
-      when /^(external|internal|vse)$/
-        ids << name
-      when /^vnic[0-9]$/
-        vnic_num = name.sub('vnic','')
-        ids << "vnic-index-#{vnic_num}"
-      else
-        ipset = @cur_ipsets.find{|x| x['name'] == name}
-        msg   = "ipset: #{name} does not exist for resource: #{resource[:name]},
-                 property: #{resource[:"#{src_or_dest}"].inspect}"
-        raise Puppet::Error, "#{msg}" if ipset.nil?
-        ids << ipset['objectId']
-      end
-    end
-    ids
-  end
-
   def app_sub_id
     ids = []
     resource[:service_application] = [] if resource[:service_application] == [ 'any' ]
@@ -179,8 +175,8 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
       replace_properties
       data                                        = {}
       data[:firewallRule ]                        = @fw_rule.reject{|k,v| v.nil? }
-      
-      Puppet.debug("Updating fw rule: #{resource[:name]}")
+
+      Puppet.debug("Updating fw rule: #{resource[:name]}")      
       put("api/3.0/edges/#{vshield_edge_moref}/firewall/config/rules/#{@fw_rule['id']}", data )
     end
   end
