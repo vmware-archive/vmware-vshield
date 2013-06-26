@@ -77,7 +77,7 @@ class Puppet::Provider::Vshield <  Puppet::Provider
     server = vc_info['ipAddress']
     raise Puppet::Error, "vSphere API connection failure: vShield #{resource[:transport]} not connected to vCenter." unless server
     connection = resource.catalog.resources.find{|x| x.class == Puppet::Type::Transport && x[:server] == server}
-    raise Puppet::Error, "vSphere API connection failure: vCenter #{server} transport connection not available in manifest." unless connection
+    raise Puppet::Error, "vSphere API connection failure: Linked vCenter in vShield Manager does not match hostname/ipaddress specification: #{server}" unless connection
     connection.to_hash
   end
 
