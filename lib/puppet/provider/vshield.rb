@@ -1,12 +1,31 @@
 # Copyright (C) 2013 VMware, Inc.
-require 'pathname' # WORK_AROUND #14073 and #7788
-vmware_module = Puppet::Module.find('vmware_lib', Puppet[:environment].to_s)
-require File.join vmware_module.path, 'lib/puppet_x/puppetlabs/transport'
-require File.join vmware_module.path, 'lib/puppet_x/vmware/util'
-module_lib = Pathname.new(__FILE__).parent.parent.parent
-require File.join module_lib, 'puppet_x/puppetlabs/transport/vshield'
-vcenter_module = Puppet::Module.find('vcenter', Puppet[:environment].to_s)
-require File.join vcenter_module.path, 'lib/puppet_x/puppetlabs/transport/vsphere'
+[ 'puppet_x/puppetlabs/transport',
+  'puppet_x/vmware/util' ].each do |path|
+  begin
+    require path
+  rescue LoadError => detail
+    require 'pathname' # WORK_AROUND #14073 and #7788
+    vmware_module = Puppet::Module.find('vmware_lib', Puppet[:environment].to_s)
+    require 'ruby-debug'; debugger
+    require File.join vmware_module.path, "lib/#{path}"
+  end
+end
+
+begin
+  require 'puppet_x/puppetlabs/transport/vshield'
+rescue LoadError => detail
+  require 'pathname' # WORK_AROUND #14073 and #7788
+  module_lib = Pathname.new(__FILE__).parent.parent.parent
+  require File.join module_lib, 'puppet_x/puppetlabs/transport/vshield'
+end
+
+begin
+  require 'puppet_x/puppetlabs/transport/vsphere'
+rescue LoadError => detail
+  require 'pathname' # WORK_AROUND #14073 and #7788
+  vcenter_module = Puppet::Module.find('vcenter', Puppet[:environment].to_s)
+  require File.join vcenter_module.path, 'lib/puppet_x/puppetlabs/transport/vsphere'
+end
 
 if Puppet.features.vshield? and ! Puppet.run_mode.master?
   # Using Savon's library:
