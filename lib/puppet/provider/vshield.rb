@@ -6,7 +6,6 @@
   rescue LoadError => detail
     require 'pathname' # WORK_AROUND #14073 and #7788
     vmware_module = Puppet::Module.find('vmware_lib', Puppet[:environment].to_s)
-    require 'ruby-debug'; debugger
     require File.join vmware_module.path, "lib/#{path}"
   end
 end
