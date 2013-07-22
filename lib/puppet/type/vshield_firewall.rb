@@ -7,7 +7,9 @@ Puppet::Type.newtype(:vshield_firewall) do
   @doc = 'Manage vShield firewall rules, firewall rules consist of:
     source/destination - consists of vshield_ipset or vshield built-in properties ( example: vnic[0-9], internal, external, vse, etc ), note: source port feature is not currently implemented
     service - consists of vshield_application ( service_application ) and vshield_application_group ( service_group )
-    action - accept/reject '
+    action - accept/reject
+
+    note: default policy should be modified using vshield_firewall_default_policy '
 
   ensurable
 

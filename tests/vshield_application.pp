@@ -22,3 +22,21 @@ vshield_application { 'puppet':
   scope_name           => $edge['name'],
   transport            => Transport['vshield'],
 }
+
+vshield_application { 'tcp-5672':
+  ensure               => present,
+  application_protocol => 'TCP',
+  value                => [ '5672' ],
+  scope_type           => 'edge',
+  scope_name           => $edge['name'],
+  transport            => Transport['vshield'],
+}
+
+vshield_application { 'global-tcp-5672':
+  ensure               => present,
+  application_protocol => 'TCP',
+  value                => [ '5672' ],
+  scope_type           => 'global',
+  scope_name           => 'global',
+  transport            => Transport['vshield'],
+}

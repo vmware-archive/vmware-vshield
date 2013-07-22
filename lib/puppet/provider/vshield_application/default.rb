@@ -27,7 +27,7 @@ Puppet::Type.type(:vshield_application).provide(:default, :parent => Puppet::Pro
   end
 
   def value
-    @application['element']['value']
+    @application['element']['value'].split(',').sort
   end
 
   def value=(ports)

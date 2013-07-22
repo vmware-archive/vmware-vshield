@@ -17,9 +17,13 @@ Puppet::Type.newtype(:vshield_ipset) do
   end
 
   newparam(:scope_type) do
-    desc 'scope type, this can be either datacenter or edge'
-    newvalues(:edge, :datacenter)
+    desc 'scope type, this can be either edge, datacenter, or global. if not specified, edge is the default'
+    newvalues(:edge, :datacenter, :global_root, :global)
     defaultto(:edge)
+    munge do |value|
+      value = 'global_root' if value == 'global'
+      value
+    end
   end
 
   newparam(:scope_name) do
