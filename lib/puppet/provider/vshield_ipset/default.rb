@@ -16,7 +16,8 @@ Puppet::Type.type(:vshield_ipset).provide(:default, :parent => Puppet::Provider:
     data = {
       :revision => 0,
       :name     => resource[:name],
-      :value    => resource[:value].sort.join(',')
+      :value    => resource[:value].sort.join(','),
+      :inheritanceAllowed => true,
     }
     post("api/2.0/services/ipset/#{vshield_scope_moref(resource[:scope_type])}", {:ipset => data} )
   end
