@@ -25,18 +25,21 @@ Puppet::Type.type(:vshield_ha).provide(:default, :parent => Puppet::Provider::Vs
 
   def ip_addresses=(value)
     @pending_changes = true
+    @edge_ha['ipAddresses']['ipAddress'] = value
   end
 
   def enabled=(value)
     @pending_changes = true
+    @edge_ha['enabled'] = value.to_s
   end
 
-  def declared_dead_time
+  def declare_dead_time
     @edge_ha['declareDeadTime']
   end
 
-  def declared_dead_time=(value)
+  def declare_dead_time=(value)
     @pending_changes = true
+    @edge_ha['declareDeadTime'] = value
   end
 
   def vnic
@@ -45,6 +48,8 @@ Puppet::Type.type(:vshield_ha).provide(:default, :parent => Puppet::Provider::Vs
 
   def vnic=(value)
     @pending_changes = true
+    @edge_ha['vnic'] = value.to_s
+    validate_vnic(value)
   end
 
   def validate_vnic(vnic)
@@ -91,16 +96,8 @@ Puppet::Type.type(:vshield_ha).provide(:default, :parent => Puppet::Provider::Vs
     if @pending_changes
       error_msg = "HA Settings not found for #{resource[:name]}"
       raise Puppet::Error, "#{error_msg}" unless @edge_ha
-      @edge_ha['ipAddresses']['ipAddress'] = resource[:ip_addresses]
-      @edge_ha['enabled']                  = resource[:enabled].to_s
-
-      if resource[:vnic]
-        @edge_ha['vnic']                   = resource[:vnic].to_s
-        validate_vnic(resource[:vnic])
-      end
-
-      data                                 = {}
-      data[:highAvailability]              = @edge_ha.reject{|k,v| v.nil? }
+      data                     = {}
+      data[:highAvailability]  = @edge_ha.reject{|k,v| v.nil? }
       
       Puppet.debug("Updating ha settings for edge: #{resource[:name]}")
       put("api/3.0/edges/#{vshield_edge_moref}/highavailability/config", data )

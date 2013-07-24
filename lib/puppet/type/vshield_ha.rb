@@ -43,8 +43,8 @@ Puppet::Type.newtype(:vshield_ha) do
     defaultto([])
   end
 
-  newproperty(:declared_dead_time) do
-    desc 'scope type, this can be either datacenter or edge'
+  newproperty(:declare_dead_time) do
+    desc 'this is value in which vshield will consider the ha node dead if not responsive'
     newvalues(/^\d+$/)
     defaultto(6)
   end
