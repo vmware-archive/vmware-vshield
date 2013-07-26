@@ -115,6 +115,7 @@ $dhcp_enabled = false
 
 
 $nat1 = {
+  description => nat1,
   action => dnat,
   vnic   => 1,
   original_address => '10.10.0.1',
@@ -122,6 +123,7 @@ $nat1 = {
 }
 
 $nat2 = {
+  description => nat2,
   action => dnat,
   vnic   => 1,
   original_address => '10.10.0.2',

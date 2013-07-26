@@ -10,8 +10,9 @@ Puppet::Type.type(:vshield_nat).provide(:default, :parent => Puppet::Provider::V
     @edge_nat ||= begin
       nat_url   = "/api/3.0/edges/#{vshield_edge_moref}/nat/config"
       results   = ensure_array( nested_value(get("#{nat_url}"), ['nat', 'natRules', 'natRule' ]) )
-      orig_addr = resource[:original_address]
-      results.find {|x| x['originalAddress'] == orig_addr} 
+      desc = resource[:description]
+      Puppet.debug("results = #{results.inspect}")
+      results.find {|x| x['description'] == desc and x['ruleType'] == 'user' } 
     end
   end
 
@@ -36,7 +37,7 @@ Puppet::Type.type(:vshield_nat).provide(:default, :parent => Puppet::Provider::V
 
   def replace_properties
     data = {}
-    data['originalAddress'] = resource[:original_address]
+    data['description'] = resource[:description]
     Puppet::Type.type(:vshield_nat).properties.collect{|x| x.name}.reject{|x| x == :ensure}.each do |prop|
       if resource[prop]
         camel_prop       = PuppetX::VMware::Util.camelize(prop, :lower)
