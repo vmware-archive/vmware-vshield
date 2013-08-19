@@ -52,6 +52,15 @@ Puppet::Type.newtype(:vshield_ha) do
   newproperty(:vnic) do
     desc 'vnic to be used for the ha communication'
   end
+  
+  newproperty(:logging, :parent => Puppet::Property::VMware_Hash ) do
+    desc 'hash of the the logging settings
+          example:
+               logging => {
+                 enable => true,
+                 logLevel => error,
+               }'
+  end
 
   newparam(:datacenter_name) do
     desc 'datacenter to be used if setting datastore_name or compute_name'
