@@ -17,6 +17,7 @@ transport { 'vcenter':
 vshield_ha { $edge['name']:
   ip_addresses    => $edge['ha']['ip_addresses'],
   enabled         => 'true',
+  logging         => { 'enable' => true, 'logLevel' => 'error' },
   vnic            => $edge['ha']['vnic'],
   datastore_name  => $edge['ha']['datastore_name'],
   datacenter_name => $dc1['name'],
