@@ -54,15 +54,14 @@ Puppet::Type.type(:vshield_ha).provide(:default, :parent => Puppet::Provider::Vs
     raise Puppet::Error, "#{error_msg}" if not result['type'] == 'internal'
   end
 
-  def get_appliances
-    appl_url    = "/api/3.0/edges/#{vshield_edge_moref}/appliances" 
-    @appliances = ensure_array(nested_value(get("#{appl_url}"), [ 'appliances', 'appliance' ]))
-    @appliances = @appliances.sort {|a,b| a['highAvailabilityIndex'] <=> b['highAvailabilityIndex']}
+  def appliances
+    appl_url = "/api/3.0/edges/#{vshield_edge_moref}/appliances" 
+    result   = ensure_array(nested_value(get("#{appl_url}"), [ 'appliances', 'appliance' ]))
+    result.sort {|a,b| a['highAvailabilityIndex'] <=> b['highAvailabilityIndex']}
   end
 
   def datastore_name
-    get_appliances
-    ensure_array(@appliances.collect{|x| x['datastoreName']})
+    ensure_array(appliances.collect{|x| x['datastoreName']})
   end
 
   def datastore_name=(value)
@@ -92,7 +91,7 @@ Puppet::Type.type(:vshield_ha).provide(:default, :parent => Puppet::Provider::Vs
       put("api/3.0/edges/#{vshield_edge_moref}/highavailability/config", data )
     end
     if @appliance_changes
-      @appliances.each_with_index do |cur_appl,index|
+      appliances.each_with_index do |cur_appl,index|
         appl_ha_index = cur_appl['highAvailabilityIndex']
         index_err     = "index; #{index} != haIndex: #{appl_ha_index}" 
         raise Puppet::Error, "#{index_err}" if appl_ha_index.to_s != index.to_s
