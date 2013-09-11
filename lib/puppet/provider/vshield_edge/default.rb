@@ -118,6 +118,14 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
     end
   end
 
+  def cli_settings
+    nested_value(get("/api/3.0/edges/#{@instance['id']}"), ['edge','cliSettings'])
+  end
+
+  def cli_settings=(value)
+    put("/api/3.0/edges/#{@instance['id']}/clisettings", :cliSettings => value )
+  end
+
   private
 
   def datacenter(name=resource[:datacenter_name])

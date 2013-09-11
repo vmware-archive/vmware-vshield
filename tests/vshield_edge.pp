@@ -30,5 +30,6 @@ vshield_edge { "${vshield['server']}:${edge['name']}":
   vse_log_level      => 'info',
   fqdn               => $edge['fqdn'],
   vnics              => $edge['vnics'],
+  cli_settings       => $edge['cli_settings'],
   transport  => Transport['vshield'],
 }
