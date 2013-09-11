@@ -7,7 +7,7 @@ transport { 'vshield':
   server   => $vshield['server'],
 }
 
-vshield_nat { $nat1['original_address']:
+vshield_nat { $nat1['description']:
   ensure             => present,
   action             => $nat1['action'],
   vnic               => $nat1['vnic'],
@@ -21,7 +21,7 @@ vshield_nat { $nat1['original_address']:
   transport          => Transport['vshield'],
 }
 
-vshield_nat { $nat2['original_address']:
+vshield_nat { $nat2['description']:
   ensure             => present,
   action             => $nat2['action'],
   vnic               => $nat2['vnic'],

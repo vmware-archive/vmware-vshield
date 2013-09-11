@@ -24,7 +24,8 @@ Puppet::Type.type(:vshield_application_group).provide(:default, :parent => Puppe
   def create
     # Create blank application ( service ) group, then poplulate app and app group members
     data = {
-      :name     => resource[:name],
+      :name               => resource[:name],
+      :inheritanceAllowed => true,
     }
     post("api/2.0/services/applicationgroup/#{vshield_scope_moref}", {:applicationGroup => data} )
 

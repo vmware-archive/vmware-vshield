@@ -4,47 +4,41 @@ require File.join(provider_path, 'vshield')
 
 Puppet::Type.type(:vshield_ha).provide(:default, :parent => Puppet::Provider::Vshield) do
   @doc = 'Manages vShield ha service.'
-  
-  def enabled
-    ha_url   = "/api/3.0/edges/#{vshield_edge_moref}/highavailability/config"
-    @edge_ha = nested_value(get("#{ha_url}"), [ 'highAvailability' ] )
 
-    @edge_ha['vnic']                   ||= '' 
-    @edge_ha['ipAddresses']            ||= {} 
-    @edge_ha['ipAddresses']['ipAddress'] = ensure_array(@edge_ha['ipAddresses']['ipAddress'])
-
-    value = @edge_ha['enabled']
-    value = :true  if TrueClass  === value
-    value = :false if FalseClass === value
-    value
+  def edge_ha
+    @edge_ha ||= begin
+      ha_url  = "/api/3.0/edges/#{vshield_edge_moref}/highavailability/config"
+      ha_config = nested_value(get("#{ha_url}"), [ 'highAvailability' ] )
+      ha_config['vnic']                   ||= '' 
+      ha_config['ipAddresses']            ||= {} 
+      ha_config['ipAddresses']['ipAddress'] = ensure_array(ha_config['ipAddresses']['ipAddress'])
+      ha_config
+    end
   end
 
+  Puppet::Type.type(:vshield_ha).properties.collect{|x| x.name}.reject{|x| x == :ensure or x == :ip_addresses}.each do |prop|
+    camel_prop = PuppetX::VMware::Util.camelize(prop, :lower)
+    define_method(prop) do
+      v = edge_ha[camel_prop]
+      v = :false if FalseClass === v
+      v = :true  if TrueClass  === v
+      v
+    end
+
+    define_method("#{prop}=".to_sym) do |value|
+      validate_vnic(value) if prop == 'vnic'
+      @pending_changes = true
+      edge_ha[camel_prop] = value
+    end
+  end
+  
   def ip_addresses
-    @edge_ha['ipAddresses']['ipAddress'].sort
+    edge_ha['ipAddresses']['ipAddress'].sort
   end
 
   def ip_addresses=(value)
     @pending_changes = true
-  end
-
-  def enabled=(value)
-    @pending_changes = true
-  end
-
-  def declared_dead_time
-    @edge_ha['declareDeadTime']
-  end
-
-  def declared_dead_time=(value)
-    @pending_changes = true
-  end
-
-  def vnic
-    @edge_ha['vnic']
-  end
-
-  def vnic=(value)
-    @pending_changes = true
+    edge_ha['ipAddresses']['ipAddress'] = value
   end
 
   def validate_vnic(vnic)
@@ -60,15 +54,14 @@ Puppet::Type.type(:vshield_ha).provide(:default, :parent => Puppet::Provider::Vs
     raise Puppet::Error, "#{error_msg}" if not result['type'] == 'internal'
   end
 
-  def get_appliances
-    appl_url    = "/api/3.0/edges/#{vshield_edge_moref}/appliances" 
-    @appliances = ensure_array(nested_value(get("#{appl_url}"), [ 'appliances', 'appliance' ]))
-    @appliances = @appliances.sort {|a,b| a['highAvailabilityIndex'] <=> b['highAvailabilityIndex']}
+  def appliances
+    appl_url = "/api/3.0/edges/#{vshield_edge_moref}/appliances" 
+    result   = ensure_array(nested_value(get("#{appl_url}"), [ 'appliances', 'appliance' ]))
+    result.sort {|a,b| a['highAvailabilityIndex'] <=> b['highAvailabilityIndex']}
   end
 
   def datastore_name
-    get_appliances
-    ensure_array(@appliances.collect{|x| x['datastoreName']})
+    ensure_array(appliances.collect{|x| x['datastoreName']})
   end
 
   def datastore_name=(value)
@@ -90,23 +83,15 @@ Puppet::Type.type(:vshield_ha).provide(:default, :parent => Puppet::Provider::Vs
   def flush
     if @pending_changes
       error_msg = "HA Settings not found for #{resource[:name]}"
-      raise Puppet::Error, "#{error_msg}" unless @edge_ha
-      @edge_ha['ipAddresses']['ipAddress'] = resource[:ip_addresses]
-      @edge_ha['enabled']                  = resource[:enabled].to_s
-
-      if resource[:vnic]
-        @edge_ha['vnic']                   = resource[:vnic].to_s
-        validate_vnic(resource[:vnic])
-      end
-
-      data                                 = {}
-      data[:highAvailability]              = @edge_ha.reject{|k,v| v.nil? }
+      raise Puppet::Error, "#{error_msg}" unless edge_ha
+      data                     = {}
+      data[:highAvailability]  = edge_ha.reject{|k,v| v.nil? }
       
       Puppet.debug("Updating ha settings for edge: #{resource[:name]}")
       put("api/3.0/edges/#{vshield_edge_moref}/highavailability/config", data )
     end
     if @appliance_changes
-      @appliances.each_with_index do |cur_appl,index|
+      appliances.each_with_index do |cur_appl,index|
         appl_ha_index = cur_appl['highAvailabilityIndex']
         index_err     = "index; #{index} != haIndex: #{appl_ha_index}" 
         raise Puppet::Error, "#{index_err}" if appl_ha_index.to_s != index.to_s

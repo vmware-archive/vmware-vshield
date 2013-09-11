@@ -32,8 +32,15 @@ vshield_ipset { 'demo':
 }
 
 vshield_ipset { 'demo2':
-  ensure     => absent,
+  ensure     => present,
   value      => [ '10.10.10.1' ],
-  scope_name => $dc1['name'],
-  scope_type => 'datacenter',
+  scope_name => $edge['name'],
+  scope_type => 'edge',
+}
+
+vshield_ipset { 'demo3':
+  ensure     => present,
+  value      => [ '10.10.10.1' ],
+  scope_name => 'global',
+  scope_type => 'global',
 }

@@ -14,6 +14,10 @@ Puppet::Type.newtype(:vshield_application) do
 
   newproperty(:value, :array_matching => :all, :parent => Puppet::Property::VMware_Array ) do
     desc 'application value, this is a string that can consist of port number(s) and ranges of ports'
+    munge do |value|
+      # since vshield treats these as strings, we are doing the same, this is needed to account for ranges
+      value.to_s
+    end
   end
 
   newproperty(:application_protocol) do
@@ -24,9 +28,13 @@ Puppet::Type.newtype(:vshield_application) do
   end
 
   newparam(:scope_type) do
-    desc 'scope type, this can be either datacenter or edge'
-    newvalues(:edge, :datacenter)
+    desc 'scope type, this can be either edge, datacenter, or global. if not specified, edge is the default'
+    newvalues(:edge, :datacenter, :global_root, :global)
     defaultto(:edge)
+    munge do |value|
+      value = 'global_root' if value == 'global'
+      value
+    end
   end
 
   newparam(:scope_name) do

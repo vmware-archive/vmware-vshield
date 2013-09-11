@@ -13,11 +13,12 @@ Puppet::Type.type(:vshield_application).provide(:default, :parent => Puppet::Pro
 
   def create
     data = {
-      :revision => 0,
-      :name     => resource[:name],
-      :element  => { :value    => resource[:value].sort.join(','), 
-                     :applicationProtocol => resource[:application_protocol],
-                   }
+      :revision           => 0,
+      :name               => resource[:name],
+      :inheritanceAllowed => true,
+      :element            => { :value    => resource[:value].sort.join(','), 
+                               :applicationProtocol => resource[:application_protocol],
+      }
     }
     post("api/2.0/services/application/#{vshield_scope_moref}", {:application => data} )
   end
@@ -27,7 +28,7 @@ Puppet::Type.type(:vshield_application).provide(:default, :parent => Puppet::Pro
   end
 
   def value
-    @application['element']['value']
+    @application['element']['value'].split(',').sort
   end
 
   def value=(ports)
