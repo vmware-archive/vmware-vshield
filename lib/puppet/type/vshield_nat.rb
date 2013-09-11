@@ -30,9 +30,15 @@ Puppet::Type.newtype(:vshield_nat) do
       fail("#{proto_msg}") if self[:protocol] !~ /icmp/ and self[:icmp_type]
     end
 
+    msg = "description must be provided since we are using this as the namevar"
+    fail(msg) if self[:description].nil?
+
+  end
+  newparam(:description, :namevar => true) do
+    desc 'description to be used for the nat rule, this is the namevar, so must be unique'
   end
 
-  newparam(:original_address, :namevar => true) do
+  newproperty(:original_address) do
     desc 'original ip/range'
     newvalues(/\d/)
   end

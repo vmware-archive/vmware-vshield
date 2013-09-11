@@ -111,7 +111,7 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
 
   def service_application
     service_apps = []
-    @fw_rule['application']['applicationId'].each do |id|
+    ensure_array(@fw_rule['application']['applicationId']).each do |id|
       app = @cur_apps.find{|x| x['objectId'] == id and x['objectId'] =~ /^application-/ }
       service_apps << app['name'] if app and app['name']
     end
@@ -124,7 +124,7 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
 
   def service_group
     service_groups = []
-    @fw_rule['application']['applicationId'].each do |id|
+    ensure_array(@fw_rule['application']['applicationId']).each do |id|
       app = @cur_app_groups.find{|x| x['objectId'] == id and x['objectId'] =~ /^applicationgroup-/ }
       service_groups << app['name'] if app and app['name']
     end
