@@ -63,10 +63,15 @@ $edge = {
          ip_addresses    => [ '192.168.0.1', '192.168.0.2' ],
          vnic            => 1,
          datastore_name  => [ 'ns120-lun1', 'ns120-lun2' ],
+  },
+  cli_settings => {
+         userName     => 'admin',
+         password     => 'default',
+         remoteAccess => true,
   }
 }
 
-$default_route = { gatewayAddress => '69.194.136.1', vnic => 'uplink-test' },
+$default_route = { gatewayAddress => '69.194.136.1', vnic => 'uplink-test' }
 $static_routes = [
   { network => '10.0.32.0/24', nextHop => '10.10.0.1', vnic => 'internal-1' },
 ]
