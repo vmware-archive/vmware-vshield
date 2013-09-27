@@ -64,7 +64,11 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
       data[:vnics] = { :vnic => vnic }
     end
 
-    order =  [:datacenterMoid, :name, :description, :tenant, :fqdn, :vseLogLevel, :enableAesni, :enableFips, :enableTcpLoose, :appliances, :vnics]
+    if resource[:cli_settings]
+      data[:cli_settings] = resource[:cli_settings]
+    end
+
+    order =  [:datacenterMoid, :name, :description, :tenant, :fqdn, :vseLogLevel, :enableAesni, :enableFips, :enableTcpLoose, :appliances, :vnics, :cli_settings]
     data[:order!] = order - (order - data.keys)
     post("api/3.0/edges",:edge => data)
   end
