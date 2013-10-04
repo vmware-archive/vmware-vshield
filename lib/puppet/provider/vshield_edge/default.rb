@@ -64,8 +64,10 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
       data[:vnics] = { :vnic => vnic }
     end
 
-    if resource[:cli_settings]
-      data[:cli_settings] = resource[:cli_settings]
+    [ 'cli_settings', 'fqdn', 'tenant' ].each do |prop|
+      if resource[prop.to_sym]
+        data[prop.to_sym] = resouce[prop.to_sym]
+      end
     end
 
     order =  [:datacenterMoid, :name, :description, :tenant, :fqdn, :vseLogLevel, :enableAesni, :enableFips, :enableTcpLoose, :appliances, :vnics, :cli_settings]

@@ -34,6 +34,9 @@ Puppet::Type.newtype(:vshield_edge) do
   newparam(:fqdn, :parent => Puppet::Property::VMware) do
   end
 
+  newparam(:tenant, :parent => Puppet::Property::VMware) do
+  end
+
   newparam(:appliance_size, :parent => Puppet::Property::VMware) do
     newvalues(:compact, :large, :XLarge)
     defaultto(:compact)
