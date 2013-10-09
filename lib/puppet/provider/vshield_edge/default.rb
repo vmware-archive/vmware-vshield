@@ -66,7 +66,7 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
 
     [ 'cli_settings', 'fqdn', 'tenant' ].each do |prop|
       if resource[prop.to_sym]
-        data[prop.to_sym] = resouce[prop.to_sym]
+        data[prop.to_sym] = resource[prop.to_sym]
       end
     end
 
