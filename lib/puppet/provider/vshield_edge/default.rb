@@ -32,7 +32,7 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
     all_vnics = []
     resource[:vnics].each_with_index do |vnic,index|
       vnic['portgroupId'] = portgroup_moref(vnic['portgroupName'])
-      vnic['index']       = index
+      vnic['index']       = index unless vnic['index']
       all_vnics << vnic
     end
     all_vnics
@@ -108,7 +108,7 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
       # add or update the vnic
       if cur_vnic.nil?
         new_vnic['portgroupId'] = portgroup_moref(new_vnic['portgroupName'])
-        new_vnic['index']       = next_avail_vnic['index']
+        new_vnic['index']       = next_avail_vnic['index'] unless vnic['index']
         vnic_url                = "/api/3.0/edges/#{@instance['id']}/vnics/?action=patch"
 
         Puppet.debug("Adding vnic#{new_vnic['index']}")
