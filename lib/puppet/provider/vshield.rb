@@ -36,8 +36,6 @@ end
 class Puppet::Provider::Vshield <  Puppet::Provider
   confine :feature => :vshield
 
-  private
-
   def rest
     @transport ||= PuppetX::Puppetlabs::Transport.retrieve(:resource_ref => resource[:transport], :catalog => resource.catalog, :provider => 'vshield')
     @transport.rest
