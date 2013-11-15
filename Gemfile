@@ -7,7 +7,6 @@ gem 'rest-client'
 
 group :development, :test do
   gem 'rake'
-  gem 'ruby-debug'
   gem 'rspec', "~> 2.11.0", :require => false
   gem 'mocha', "~> 0.10.5", :require => false
   gem 'puppetlabs_spec_helper', :require => false
