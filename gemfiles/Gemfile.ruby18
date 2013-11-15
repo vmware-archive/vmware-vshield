@@ -1,9 +1,10 @@
 source 'https://rubygems.org'
 
 gem 'gyoku'
-gem 'hashdiff'
 gem 'nori'
 gem 'rest-client'
+gem 'hashdiff', "~> 0.0.6"
+gem 'nokogiri', "~> 1.5.0"
 gem 'rbvmomi'
 
 group :development, :test do
@@ -17,14 +18,13 @@ end
 
 facterversion = ENV['GEM_FACTER_VERSION']
 if facterversion
-  gem 'facter', facterversion
+    gem 'facter', facterversion
 else
-  gem 'facter', :require => false
+    gem 'facter', :require => false
 end
 
 ENV['GEM_PUPPET_VERSION'] ||= ENV['PUPPET_GEM_VERSION']
-puppetversion = ENV['GEM_PUPPET_VERSION']
-if puppetversion
+if puppetversion = ENV['GEM_PUPPET_VERSION']
   gem 'puppet', puppetversion
 else
   gem 'puppet', :require => false
