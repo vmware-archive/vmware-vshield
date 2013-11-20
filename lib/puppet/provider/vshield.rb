@@ -60,6 +60,7 @@ class Puppet::Provider::Vshield <  Puppet::Provider
       begin
         result = rest[url].send(m, Gyoku.xml(data), :content_type => 'application/xml; charset=UTF-8')
       rescue RestClient::Exception => e
+        Puppet.debug "Failed REST #{m} to URL #{url}:\n#{data}\nXML Format:\n#{Gyoku.xml data}"
         raise Puppet::Error, "\n#{e.exception}:\n#{e.response}"
       end
       Puppet.debug "VShield REST API #{m} #{url} with #{data.inspect} result:\n#{result.inspect}"
