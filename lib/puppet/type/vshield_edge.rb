@@ -34,6 +34,9 @@ Puppet::Type.newtype(:vshield_edge) do
   newparam(:fqdn, :parent => Puppet::Property::VMware) do
   end
 
+  newparam(:tenant, :parent => Puppet::Property::VMware) do
+  end
+
   newparam(:appliance_size, :parent => Puppet::Property::VMware) do
     newvalues(:compact, :large, :XLarge)
     defaultto(:compact)
@@ -62,6 +65,18 @@ Puppet::Type.newtype(:vshield_edge) do
 
   newproperty(:vse_log_level, :parent => Puppet::Property::VMware) do
     newvalues('debug', 'info', 'emergency', 'alert', 'critical', 'error', 'warning', 'notice')
+  end
+
+  newproperty(:cli_settings, :parent => Puppet::Property::VMware_Hash) do
+    desc 'cli settings ( remote access )'
+    # override since vshield get does not display password
+    def insync?(is)
+      desire = @should.first.clone
+      if desire.include?('password') and is.is_a? Hash
+        is['password'] = desire['password']
+      end
+      super(is)
+    end
   end
 
   autorequire(:transport) do
