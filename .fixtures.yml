@@ -1,0 +1,6 @@
+fixtures:
+  repositories:
+    'vmware_lib': 'git://github.com/vmware/vmware-vmware_lib.git'
+    'vcenter': 'git://github.com/vmware/vmware-vcenter.git'
+  symlinks:
+    'vshield': "#{source_dir}"
