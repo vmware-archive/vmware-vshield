@@ -39,6 +39,11 @@ Puppet::Type.newtype(:vshield_application_group) do
     defaultto(true)
   end
 
+  newparam(:preserve) do
+    desc 'whether existing resource values are preserved'
+    defaultto(false)
+  end
+
   autorequire(:vshield_edge) do
     self[:name]
   end
