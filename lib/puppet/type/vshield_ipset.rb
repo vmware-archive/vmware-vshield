@@ -30,6 +30,11 @@ Puppet::Type.newtype(:vshield_ipset) do
     desc 'scope name which will be used with scope_type to get/set ipsets'
   end
 
+  newparam(:inclusive) do
+    desc 'whether the resource value is inclusive'
+    defaultto(true)
+  end
+
   autorequire(:vshield_edge) do
     self[:name]
   end

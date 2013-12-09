@@ -34,6 +34,11 @@ Puppet::Type.newtype(:vshield_application_group) do
     desc 'scope name which will be used with scope_type to get/set application_groups'
   end
 
+  newparam(:inclusive) do
+    desc 'whether the resource application_member and application_group_member is inclusive'
+    defaultto(true)
+  end
+
   autorequire(:vshield_edge) do
     self[:name]
   end
