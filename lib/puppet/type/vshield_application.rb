@@ -41,6 +41,16 @@ Puppet::Type.newtype(:vshield_application) do
     desc 'scope name which will be used with scope_type to get/set applications'
   end
 
+  newparam(:inclusive) do
+    desc 'whether the resource value is inclusive'
+    defaultto(true)
+  end
+
+  newparam(:preserve) do
+    desc 'whether existing resource values are preserved'
+    defaultto(false)
+  end
+
   autorequire(:vshield_edge) do
     self[:name]
   end
