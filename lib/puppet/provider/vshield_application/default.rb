@@ -28,7 +28,15 @@ Puppet::Type.type(:vshield_application).provide(:default, :parent => Puppet::Pro
   end
 
   def value
-    @application['element']['value'].split(',').sort
+    # have to handle array or string from nsx
+    case @application['element']['value']
+    when Array
+      @application['element']['value'].sort
+    when String
+      @application['element']['value'].split(',').sort
+    else
+      raise Puppet::Error "unexpected class: #{@application['element']['value'].class for @application['element']['value']"
+    end
   end
 
   def value=(ports)
@@ -48,7 +56,7 @@ Puppet::Type.type(:vshield_application).provide(:default, :parent => Puppet::Pro
       # requires us to increment revision number, thing to try in future is omitting revision key
       @application['revision']                       = @application['revision'].to_i + 1
       @application['element']['applicationProtocol'] = resource[:application_protocol]
-      @application['element']['value']               = resource[:value]
+      @application['element']['value']               = resource[:value].sort.join(',')
 
       # get rid of nil value hash elements
       data                      = {}
