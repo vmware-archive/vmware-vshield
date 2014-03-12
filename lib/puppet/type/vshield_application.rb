@@ -12,7 +12,7 @@ Puppet::Type.newtype(:vshield_application) do
     desc 'application name'
   end
 
-  newproperty(:value, :array_matching => :all, :parent => Puppet::Property::VMware_Array ) do
+  newproperty(:value, :array_matching => :all, :parent => Puppet::Property::VMware_Array, :sort => :true ) do
     desc 'application value, this is a string that can consist of port number(s) and ranges of ports'
     munge do |value|
       # since vshield treats these as strings, we are doing the same, this is needed to account for ranges
