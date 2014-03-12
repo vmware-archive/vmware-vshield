@@ -16,7 +16,7 @@ Puppet::Type.type(:vshield_application).provide(:default, :parent => Puppet::Pro
       :revision           => 0,
       :name               => resource[:name],
       :inheritanceAllowed => true,
-      :element            => { :value    => resource[:value].sort.join(','), 
+      :element            => { :value    => resource_value,
                                :applicationProtocol => resource[:application_protocol],
       }
     }
@@ -28,7 +28,7 @@ Puppet::Type.type(:vshield_application).provide(:default, :parent => Puppet::Pro
   end
 
   def value
-    @application['element']['value'].split(',').sort
+    @application['element']['value'].split(',')
   end
 
   def value=(ports)
@@ -43,18 +43,22 @@ Puppet::Type.type(:vshield_application).provide(:default, :parent => Puppet::Pro
     @pending_changes = true
   end
 
+  def resource_value
+    resource[:value].join(',')
+  end
+
   def flush
     if @pending_changes
       # requires us to increment revision number, thing to try in future is omitting revision key
       @application['revision']                       = @application['revision'].to_i + 1
       @application['element']['applicationProtocol'] = resource[:application_protocol]
-      @application['element']['value']               = resource[:value]
+      @application['element']['value']               = resource_value
 
       # get rid of nil value hash elements
       data                      = {}
       data[:application]        = @application.reject{|k,v| v.nil? }
 
-      Puppet.debug("Updating to #{value}")
+      Puppet.debug("Updating to #{resource_value}")
       put("api/2.0/services/application/#{@application['objectId']}", data )
 
     end
