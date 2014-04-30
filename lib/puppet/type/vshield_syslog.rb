@@ -10,7 +10,33 @@ Puppet::Type.newtype(:vshield_syslog) do
     desc 'vShield hostname or ip address.'
   end
 
-  newproperty(:server_info, :parent => Puppet::Property::VMware) do
+  newparam(:server_info) do
+    desc 'no longer implemented, please use syslog_server and port instead'
+    validate do |value|
+      raise('no longer implemented, please use syslog_server and port instead')
+    end
+  end
+
+  newproperty(:syslog_server, :parent => Puppet::Property::VMware) do
+    newvalues(/\w+/)
+    validate do |value|
+      msg = "Error, in order to accomodate 6.x changes, port has been split out to 'port', please use this instead"
+      raise(msg) if value =~ /:/
+    end
+  end
+
+  newproperty(:port, :parent => Puppet::Property::VMware) do
+    desc "syslog port, defaults to 514"
+    newvalues(/^\d+$/)
+    defaultto(514)
+  end
+
+  newproperty(:protocol, :parent => Puppet::Property::VMware) do
+    desc "syslog protocol, valid values are UDP/TCP/UDP6/TCP6, defaults to UDP, only available in > 6.x"
+    newvalues(:udp, :tcp, :UDP, :TCP, :udp6, :tcp6, :UDP6, :TCP6)
+    munge do |value|
+      value.upcase
+    end
   end
 
   autorequire(:transport) do

@@ -161,4 +161,17 @@ class Puppet::Provider::Vshield <  Puppet::Provider
     instance['id']
   end
 
+  # detect if nsx or vsm
+  def network_manager_version
+    @network_manager_version ||=
+      begin
+        url_path = 'api/1.0/appliance-management/global/info'
+        version_info = nested_value(get(url_path),['globalInfo','versionInfo']).select{|x| x =~ /Version/}.values.join('.')
+      rescue
+        # if this get works, assume 5.x is good
+        get('api/2.0/global/config')
+        version_info = '5.x'
+      end
+  end
+
 end
