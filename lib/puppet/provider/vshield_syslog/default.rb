@@ -62,7 +62,8 @@ Puppet::Type.type(:vshield_syslog).provide(:vs_syslog, :parent => Puppet::Provid
   end
 
   def port
-    nested_value(syslog_settings,version_value['port_path']).split(':').last
+    port = nested_value(syslog_settings,version_value['port_path'])
+    port.split(':').last if port
   end
 
   def protocol
