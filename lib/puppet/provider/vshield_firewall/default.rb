@@ -71,7 +71,11 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
       @fw_rule[src_or_dest]['groupingObjectId'] = grouping_object_ids
     end
     @fw_rule['application']['applicationId'] = app_sub_id
-    @fw_rule['action']                       = resource[:action]
+    
+    # true/false properties, call existing setter methods
+    [ 'action', 'enabled', 'logging_enabled' ].each do |prop|
+      self.send "#{prop}=".to_sym, resource[prop.to_sym] 
+    end
   end
 
   def create
@@ -81,6 +85,7 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
     @fw_rule['name']                            = resource[:name]
     data                                      ||= {}
     data[:firewallRule ]                        = @fw_rule.reject{|k,v| v.nil? }
+    @just_created                               = true
     post("/api/3.0/edges/#{vshield_edge_moref}/firewall/config/rules", { :firewallRules => data })
   end
 
@@ -108,6 +113,22 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
       @pending_changes = true
     end
   end
+  
+  [ 'action', 'enabled', 'logging_enabled' ].each do |prop|
+    # camel case is used by vshield/nsx
+    camel_prop = PuppetX::VMware::Util.camelize(prop, :lower)
+    define_method("#{prop}=".to_sym) do |value|
+      @fw_rule[camel_prop] = value
+      @pending_changes = true
+    end
+    
+    define_method(prop.to_sym) do
+      v = @fw_rule[camel_prop]
+      v = :false if FalseClass === v
+      v = :true  if TrueClass  === v
+      v
+    end
+  end
 
   def service_application
     service_apps = []
@@ -116,10 +137,6 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
       service_apps << app['name'] if app and app['name']
     end
     service_apps.sort
-  end
-
-  def service_application=(service=resource[:service_application])
-    @pending_changes = true
   end
 
   def service_group
@@ -131,24 +148,11 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
     service_groups.sort
   end
 
-  def service_group=(service=resource[:service_group])
-    @pending_changes = true
+  [ 'service_application', 'service_group' ].each do |prop|
+    define_method("#{prop}=".to_sym) do |value|
+      @pending_changes = true
+    end
   end
-
-  def action
-    @fw_rule['action']
-  end
-
-  def action=(action=resource[:action])
-    @pending_changes = true
-  end
-
-  #def log
-  #end
-
-  #def log=
-  #  @pending_changes = true
-  #end
 
   def app_sub_id
     ids = []
@@ -170,14 +174,16 @@ Puppet::Type.type(:vshield_firewall).provide(:default, :parent => Puppet::Provid
   end
 
   def flush
-    if @pending_changes
-      raise Puppet::Error, "Firewall Rule #{resource[:name]} was not found" unless @fw_rule
-      replace_properties
-      data                                        = {}
-      data[:firewallRule ]                        = @fw_rule.reject{|k,v| v.nil? }
-
-      Puppet.debug("Updating fw rule: #{resource[:name]}")      
-      put("api/3.0/edges/#{vshield_edge_moref}/firewall/config/rules/#{@fw_rule['id']}", data )
+    unless @just_created
+      if @pending_changes
+        raise Puppet::Error, "Firewall Rule #{resource[:name]} was not found" unless @fw_rule
+        replace_properties
+        data                                        = {}
+        data[:firewallRule ]                        = @fw_rule.reject{|k,v| v.nil? }
+  
+        Puppet.debug("Updating fw rule: #{resource[:name]}")      
+        put("api/3.0/edges/#{vshield_edge_moref}/firewall/config/rules/#{@fw_rule['id']}", data )
+      end
     end
   end
 end

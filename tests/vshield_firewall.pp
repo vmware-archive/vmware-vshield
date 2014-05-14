@@ -31,6 +31,8 @@ vshield_application_group { 'puppet_and_smtp':
 
 vshield_firewall {'dmz-to-puppet':
   ensure              => present,
+  enabled             => false,
+  logging_enabled     => true,
   source              => [ 'demo'],
   destination         => [ 'web1' ],
   service_application => [ 'HTTP' ],
@@ -43,9 +45,10 @@ vshield_firewall {'dmz-to-puppet':
 
 vshield_firewall {'service_group_test':
   ensure              => present,
+  enabled             => true,
   source              => [ 'demo'],
   destination         => [ 'web1' ],
-  service_application => [ 'HTTPS' ],
+  service_application => [ 'HTTPS','HTTP' ],
   service_group       => [ 'puppet_and_smtp' ],
   action              => 'accept',
   #log                 => 'false',
