@@ -43,11 +43,17 @@ Puppet::Type.newtype(:vshield_firewall) do
     defaultto(:accept)
   end
 
-  #newproperty(:log) do
-  #  desc 'this is whether or not the rule will log, can be either true or false, default is false'
-  #  newvalues(:true, :false)
-  #  defaultto(:false)
-  #end
+  newproperty(:logging_enabled) do
+    desc 'this is whether or not the rule will log, can be either true or false, default is false'
+    newvalues(:true, :false)
+    defaultto(:false)
+  end
+
+  newproperty(:enabled) do
+    desc 'whether or not the rule is enabled, can be either true or false, default is true'
+    newvalues(:true, :false)
+    defaultto(:true)
+  end
 
   newparam(:scope_name) do
     desc 'scope name which will be used with scope_type to get/set firewalls'
