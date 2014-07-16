@@ -132,6 +132,15 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
     put("/api/3.0/edges/#{@instance['id']}/clisettings", :cliSettings => value )
   end
 
+  def flush
+    vse = exists?
+    return unless vse
+    if resource[:upgrade]
+      raise Puppet::Error, "id not found for object: #{vse}" unless vse['id']
+      post("api/4.0/edges/#{vse['id']}?action=upgrade") 
+    end
+  end
+
   private
 
   def datacenter(name=resource[:datacenter_name])

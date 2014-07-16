@@ -79,6 +79,10 @@ Puppet::Type.newtype(:vshield_edge) do
     end
   end
 
+  newparam(:upgrade)
+    newvalues(:true,:false)
+  end
+
   autorequire(:transport) do
     self[:manager]
   end
