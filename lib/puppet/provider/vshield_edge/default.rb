@@ -136,7 +136,7 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
     vse = exists?
     return unless vse
     if resource[:upgrade]
-      raise Puppet::Error, "id not found for object: #{vse}" unless vse['id']
+      raise Puppet::Error, "id not found for object: #{vse}" unless vse.has_key?('id')
       post("api/4.0/edges/#{vse['id']}?action=upgrade") 
     end
   end
