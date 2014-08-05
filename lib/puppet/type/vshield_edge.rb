@@ -79,8 +79,9 @@ Puppet::Type.newtype(:vshield_edge) do
     end
   end
 
-  newparam(:upgrade)
+  newproperty(:upgrade) do
     newvalues(:true,:false)
+    defaultto(:false)
   end
 
   autorequire(:transport) do

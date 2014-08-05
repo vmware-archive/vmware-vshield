@@ -72,6 +72,10 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
 
     order =  [:datacenterMoid, :name, :description, :tenant, :fqdn, :vseLogLevel, :enableAesni, :enableFips, :enableTcpLoose, :appliances, :vnics, :cli_settings]
     data[:order!] = order - (order - data.keys)
+    # set so that flush will try any post create actions
+    @pending_changes = 'yes'
+    # remove cached list of edges since were going to create one
+    @edge_summary = nil 
     post("api/3.0/edges",:edge => data)
   end
 
@@ -132,12 +136,30 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
     put("/api/3.0/edges/#{@instance['id']}/clisettings", :cliSettings => value )
   end
 
+  def upgrade
+    # when false is specified ( default behaviour ), it will match, when true is, it will not
+    :false
+  end
+  
+  def upgrade=(value)
+    cur_ver = @instance['version']
+    @pending_changes = 'yes'
+  end
+
   def flush
-    vse = exists?
-    return unless vse
-    if resource[:upgrade]
-      raise Puppet::Error, "id not found for object: #{vse}" unless vse.has_key?('id')
-      post("api/4.0/edges/#{vse['id']}?action=upgrade") 
+    return unless @pending_changes
+    raise Puppet::Error, ( "edge: #{resource[:edge_name]} not found" ) unless exists?
+    vm_version = @instance['appliancesSummary']['vmVersion']
+    # different api versions for pre nsx edges
+    if vm_version.to_f < 6
+      upgrade_url = "api/3.0/edges/#{@instance['id']}?action=upgrade" 
+    else
+      upgrade_url = "api/4.0/edges/#{@instance['id']}?action=upgrade" 
+    end
+    # no need to upgrade if we are already match the network_manager_version ( vsm/nsx )
+    if resource[:upgrade] and network_manager_version != vm_version
+      Puppet.notice("Attempting to upgrade edge to #{network_manager_version}")
+      post(upgrade_url,{}) unless network_manager_version == vm_version
     end
   end
 
