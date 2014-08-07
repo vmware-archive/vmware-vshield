@@ -142,7 +142,6 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
   end
   
   def upgrade=(value)
-    cur_ver = @instance['version']
     @pending_changes = 'yes'
   end
 
@@ -157,9 +156,11 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
       upgrade_url = "api/4.0/edges/#{@instance['id']}?action=upgrade" 
     end
     # no need to upgrade if we are already match the network_manager_version ( vsm/nsx )
-    if resource[:upgrade] and network_manager_version != vm_version
-      Puppet.notice("Attempting to upgrade edge to #{network_manager_version}")
-      post(upgrade_url,{}) unless network_manager_version == vm_version
+    if resource[:upgrade] == :true
+      unless network_manager_version == vm_version
+        Puppet.notice("Attempting to upgrade edge to #{network_manager_version}")
+        post(upgrade_url,{}) unless network_manager_version == vm_version
+      end
     end
   end
 
