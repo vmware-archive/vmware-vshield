@@ -31,5 +31,6 @@ vshield_edge { "${vshield['server']}:${edge['name']}":
   fqdn               => $edge['fqdn'],
   vnics              => $edge['vnics'],
   cli_settings       => $edge['cli_settings'],
+  upgrade            => true,
   transport  => Transport['vshield'],
 }
