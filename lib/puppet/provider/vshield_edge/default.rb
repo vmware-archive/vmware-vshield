@@ -159,7 +159,7 @@ Puppet::Type.type(:vshield_edge).provide(:vshield_edge, :parent => Puppet::Provi
     if resource[:upgrade] == :true
       unless network_manager_version == vm_version
         Puppet.notice("Attempting to upgrade edge to #{network_manager_version}")
-        post(upgrade_url,{}) unless network_manager_version == vm_version
+        post(upgrade_url,{})
       end
     end
   end
