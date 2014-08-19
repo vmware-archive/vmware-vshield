@@ -36,12 +36,14 @@ Puppet::Type.newtype(:vshield_application_group) do
 
   newparam(:inclusive) do
     desc 'whether the resource application_member and application_group_member is inclusive'
-    defaultto(true)
+    newvalues(:true, :false)
+    defaultto(:true)
   end
 
   newparam(:preserve) do
     desc 'whether existing resource values are preserved'
-    defaultto(false)
+    newvalues(:true, :false)
+    defaultto(:false)
   end
 
   autorequire(:vshield_edge) do

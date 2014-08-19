@@ -22,29 +22,20 @@ Puppet::Type.newtype(:vshield_routes) do
     end
   end
 
-  newproperty(:static_routes, :array_matching => :all, :parent => Puppet::Property::VMware_Array_Hash) do
+  newproperty(:static_routes, :array_matching => :all, :key => 'network', :parent => Puppet::Property::VMware_Array_Hash) do
     desc 'array of static routes'
-    @key = 'network'
-
-    alias :parent_insync? :insync?
-
-    def insync?(is)
-      # allow empty array to cause removal of all static routes
-      # parent does the opposite of this
-      return parent_insync?(is) unless should.empty?
-      return is.empty?
-    end
-
   end
  
   newparam(:inclusive) do
     desc 'whether the resource value is inclusive'
-    defaultto(true)
+    newvalues(:true, :false)
+    defaultto(:true)
   end
 
   newparam(:preserve) do
     desc 'whether existing resource values are preserved'
-    defaultto(false)
+    newvalues(:true, :false)
+    defaultto(:false)
   end
 
   autorequire(:vshield_edge) do
