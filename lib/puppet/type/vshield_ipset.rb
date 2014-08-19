@@ -32,12 +32,14 @@ Puppet::Type.newtype(:vshield_ipset) do
 
   newparam(:inclusive) do
     desc 'whether the resource value is inclusive'
-    defaultto(true)
+    newvalues(:true, :false)
+    defaultto(:true)
   end
 
   newparam(:preserve) do
     desc 'whether existing resource values are preserved'
-    defaultto(false)
+    newvalues(:true, :false)
+    defaultto(:false)
   end
 
   autorequire(:vshield_edge) do
