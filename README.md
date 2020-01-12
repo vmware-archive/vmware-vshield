@@ -1,3 +1,5 @@
+# VMware has ended active development of this project, this repository will no longer be updated.
+
 # VMware vShield module
 
 This module manages resources in VMware vCloud Network and Security 5.1 (vCNS), i.e. vShield.
